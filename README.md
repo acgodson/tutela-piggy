@@ -52,7 +52,7 @@ Frontend (displays detections + alerts)
 | **Count Mismatch**   | Detected pigs ≠ Expected count | `HIGH`   | Frame analysis comparing detection count vs. user-set expected value | ✅ **Implemented** |
 | **Inactivity Alert** | <50px movement in 15 seconds   | `MEDIUM` | Position tracking across frames, calculates Euclidean distance       | ✅ **Implemented** |
 
-### Future Alerts (Requires Additional Hardware)
+### Advanced Alerts (Requires Additional Hardware)
 
 | Alert Type               | Trigger                               | Required Hardware           | Detection Method                   | Status       |
 | ------------------------ | ------------------------------------- | --------------------------- | ---------------------------------- | ------------ |
@@ -144,53 +144,22 @@ All alerts are logged to Hedera Hashgraph. View them on:
 - **Blockchain**: Hedera Hashgraph (HCS - Hashgraph Consensus Service)
 - **Deployment**: Vercel (frontend), EC2 (backend)
 
-## 📝 Hackathon Submission
-
 ### Hedera Hack Africa 2024
 
 **Category**: Agriculture / Health Monitoring  
 **Blockchain Integration**: Hedera Hashgraph Consensus Service (HCS)
 
-#### 📋 Submission Requirements
 
-✅ **Public GitHub Repository** - Fresh repository created during hackathon period  
-✅ **Well-Structured README** - This file documents setup, architecture, and features  
-✅ **Clean Code Practices** - Modular codebase with clear separation of concerns  
-✅ **Hedera Integration** - All alerts logged to Hedera HCS for blockchain verification
+#### 🔗 Documents
 
-#### 🔗 Required Links & Documents
+#### 🔗 Documents
 
-**Pitch Deck**: [Link to pitch deck - ADD YOUR LINK HERE]  
-**Certification/Learning**: [Link to Hedera certification or learning proof - ADD YOUR LINK HERE]
+**Pitch Deck**: [View Pitch Deck](./assets/Tutela-DECK-Summer25.pdf)  
+**Certification/Learning**: [View Certificate](./assets/c0c6cb07-7411-4c5c-a8e1-72885502b6db.pdf)
 
-> 💡 **Note**: Replace the placeholder links above with your actual pitch deck and certification documents before submission.
 
-#### 👥 Mandatory: Add Collaborator
 
-**IMPORTANT**: You must invite `Hackathon@hashgraph-association.com` as a collaborator to this repository.
 
-**Steps**:
-1. Go to your GitHub repository → **Settings**
-2. Click **Collaborators** in the sidebar
-3. Click **Add people**
-4. Paste: `Hackathon@hashgraph-association.com`
-5. Click **Add** (make sure the email is correct!)
-
-This is **mandatory** for all participants as an AI system assists in the judging process and needs collaborator access.
-
-#### 📖 Full Submission Guide
-
-- **DoraHacks Submission**: [Hedera Hack Africa Submission Guide](https://dorahacks.io/hackathon/hederahackafrica/submission-guide)
-- **Tutorial Video**: Watch the official submission tutorial (linked in DoraHacks guide)
-- **Discord Resources**: [Join Discord Server](https://discord.gg/Cc9GgEnjDe) → Check #resources channel
-
-#### ⏰ Deadline
-
-All submissions must be completed before **October 31, 2025 at 23:59 UTC**. Late submissions will not be accepted.
-
-## 📄 License
-
-MIT License - See LICENSE file for details
 
 ## 🤝 Contributing
 
@@ -198,9 +167,10 @@ We welcome contributions! Please open an issue or submit a pull request.
 
 ## 📧 Contact
 
-- **Website**: [tutela.framer.website](https://tutela.framer.website)
-- **GitHub**: [github.com/tutela](https://github.com/tutela-piggy)
-- **Demo**: `/pig-detection` route
+- **Website**: [tutela-piggy.vercel.app](https://tutela-piggy.vercel.app)
+- **GitHub**: [github.com/tutela-piggy](https://github.com/tutela-piggy)
+- **Demo**: [View Demo](https://tutela-piggy.vercel.app/pig-detection)
+
 
 ---
 
