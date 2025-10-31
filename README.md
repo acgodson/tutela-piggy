@@ -52,7 +52,7 @@ Frontend (displays detections + alerts)
 | **Thermal Anomaly**   | Body temperature >38.5°C or <37°C     | Thermal imaging camera     | Thermal sensor data analysis       | 🔜 **Future** |
 | **Abnormal Behavior** | Aggressive/isolated behavior patterns | Camera + AI behavior model | Movement pattern ML classification | 🔜 **Future** |
 
-*🎥 [Watch Demo: Thermal Hardware Capturing and Sending Alerts to HashScan](https://vimeo.com/1040586569)*
+*🎥 [Watch Demo: Thermal Hardware Capturing and Sending Alerts to Hedera](https://vimeo.com/1040586569)*
 
 ## Quick Start
 
