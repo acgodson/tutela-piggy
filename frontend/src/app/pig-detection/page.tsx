@@ -5,10 +5,29 @@ export default function PigDetectionPage() {
 
 
     return (
-        <main className="min-h-screen" style={{ backgroundColor: '#0f1419' }}>
-            <div className="container mx-auto px-4 py-6">
+        <main className="min-h-screen relative overflow-hidden" style={{ backgroundColor: '#0f1419' }}>
+            {/* Background Image with Gradient Overlay */}
+            <div
+                className="fixed inset-0 z-0"
+                style={{
+                    backgroundImage: 'url(/pigs.jpg)',
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    filter: 'blur(1px) brightness(0.5)',
+                }}
+            />
+            {/* Gradient Overlay - more transparent to show image */}
+            <div
+                className="fixed inset-0 z-0"
+                style={{
+                    background: 'linear-gradient(to bottom, rgba(15, 20, 25, 0.4) 0%, rgba(15, 20, 25, 0.6) 50%, rgba(15, 20, 25, 0.75) 100%)',
+                }}
+            />
+
+            <div className="container mx-auto px-4 py-6 relative z-10">
                 {/* Header with Logo */}
-                <div className="flex items-center justify-center gap-4 mb-8">
+                <div className="flex items-center justify-center gap-4 mb-8 relative z-10">
                     <div className="relative w-12 h-12 flex-shrink-0">
                         <Image
                             src="/logo.jpg"
@@ -24,16 +43,21 @@ export default function PigDetectionPage() {
                             Tutela
                         </h1>
                         <p className="text-sm text-gray-400 font-light">
-                            AI-Powered Livestock Monitoring
+                            Livestock Monitoring
                         </p>
                     </div>
                 </div>
 
-                {/* Main Content */}
-                <LivePigDetection />
+                {/* Main Content with Glassmorphism Effect */}
+                <div className="relative z-10 backdrop-blur-xl bg-black/40 rounded-2xl border border-white/20 shadow-2xl overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-black/20 pointer-events-none" />
+                    <div className="relative">
+                        <LivePigDetection />
+                    </div>
+                </div>
 
                 {/* Footer Links */}
-                <div className="flex items-center justify-center gap-6 mt-12 pt-8 border-t border-gray-800/50">
+                <div className="flex items-center justify-center gap-6 mt-12 pt-8 border-t border-gray-800/50 relative z-10">
                     <a
                         href="/about"
                         className="text-gray-400 hover:text-white transition-colors text-sm font-medium"

@@ -216,11 +216,11 @@ export default function LivePigDetection() {
         const directUrl = `${typeof window !== 'undefined' ? window.location.origin : ''}/embed?topic=${topicId}&farm=${farmId}`;
 
         return (
-            <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                <div className="bg-[#1a1a1a] rounded-xl border border-gray-800 max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+            <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4">
+                <div className="bg-[#1a1a1a] rounded-xl border border-gray-800 max-w-3xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto">
                     {/* Header */}
-                    <div className="flex items-center justify-between p-6 border-b border-gray-800">
-                        <h2 className="text-xl font-semibold text-white">Share & Embed</h2>
+                    <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-800">
+                        <h2 className="text-lg sm:text-xl font-semibold text-white">Share & Embed</h2>
                         <button
                             onClick={() => setShowEmbedModal(false)}
                             className="text-gray-400 hover:text-white transition"
@@ -231,22 +231,22 @@ export default function LivePigDetection() {
                         </button>
                     </div>
 
-                    <div className="p-6 space-y-6">
+                    <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
                         {/* Direct Link */}
                         <div>
                             <label className="block text-sm font-medium text-gray-300 mb-2">
                                 Direct Link
                             </label>
-                            <div className="flex gap-2">
+                            <div className="flex flex-col sm:flex-row gap-2">
                                 <input
                                     type="text"
                                     value={directUrl}
                                     readOnly
-                                    className="flex-1 px-4 py-2.5 bg-[#0a0a0a] border border-gray-700 rounded-lg text-gray-300 text-sm font-mono focus:outline-none focus:border-gray-600"
+                                    className="flex-1 px-3 sm:px-4 py-2 sm:py-2.5 bg-[#0a0a0a] border border-gray-700 rounded-lg text-gray-300 text-xs sm:text-sm font-mono focus:outline-none focus:border-gray-600"
                                 />
                                 <button
                                     onClick={() => copyToClipboard(directUrl, 'Link')}
-                                    className="px-4 py-2.5 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition text-sm font-medium"
+                                    className="px-4 py-2 sm:py-2.5 bg-gray-800 hover:bg-gray-700 text-white rounded-lg transition text-xs sm:text-sm font-medium"
                                 >
                                     Copy
                                 </button>
@@ -259,7 +259,7 @@ export default function LivePigDetection() {
                                 Embed Code
                             </label>
                             <div className="relative">
-                                <pre className="bg-[#0a0a0a] border border-gray-700 rounded-lg p-4 text-sm text-gray-300 overflow-x-auto font-mono">
+                                <pre className="bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 sm:p-4 text-xs sm:text-sm text-gray-300 overflow-x-auto font-mono">
                                     {embedCode}
                                 </pre>
                                 <button
@@ -297,7 +297,7 @@ export default function LivePigDetection() {
                             </label>
                             <div className="bg-[#0a0a0a] border border-gray-700 rounded-lg p-6 text-center">
                                 <div className="text-gray-500 text-sm">
-                                    Embedded alert feed will display live Hedera blockchain logs
+                                    Embedded alert feed will display live Hedera powered logs
                                 </div>
                             </div>
                         </div>
@@ -312,13 +312,13 @@ export default function LivePigDetection() {
         if (!showAlertsPanel) return null;
 
         return (
-            <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                <div className="bg-[#1a1a1a] rounded-xl border border-gray-800 max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-2 sm:p-4">
+                <div className="bg-[#1a1a1a] rounded-xl border border-gray-800 max-w-4xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-hidden flex flex-col">
                     {/* Header */}
-                    <div className="flex items-center justify-between p-6 border-b border-gray-800">
+                    <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-800">
                         <div>
-                            <h2 className="text-xl font-semibold text-white">Alert System</h2>
-                            <p className="text-sm text-gray-400 mt-1">Real-time monitoring with blockchain verification</p>
+                            <h2 className="text-lg sm:text-xl font-semibold text-white">Alert System</h2>
+                            <p className="text-xs sm:text-sm text-gray-400 mt-1">Real-time monitoring on Hedera HCS</p>
                         </div>
                         <button
                             onClick={() => setShowAlertsPanel(false)}
@@ -330,7 +330,7 @@ export default function LivePigDetection() {
                         </button>
                     </div>
 
-                    <div className="flex-1 overflow-y-auto p-6 space-y-6">
+                    <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-6">
                         {/* Alert Types */}
                         <div>
                             <h3 className="text-sm font-semibold text-white mb-4">Alert Types</h3>
@@ -481,78 +481,80 @@ export default function LivePigDetection() {
     }, []);
 
     return (
-        <div className="min-h-screen bg-[#0a0a0a] text-white">
-            <div className="max-w-7xl mx-auto p-6">
+        <div className="min-h-screen bg-transparent text-white">
+            <div className="max-w-7xl mx-auto p-4 sm:p-6">
                 {/* Header */}
-                <div className="mb-8">
-                    <div className="flex items-center justify-between">
+                <div className="mb-6 sm:mb-8">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                         <div>
-                            <h1 className="text-2xl font-bold text-white mb-1">Tutela Pig Detection</h1>
-                            <p className="text-gray-400 text-sm">AI-powered livestock monitoring with blockchain verification</p>
+                            <h1 className="text-xl sm:text-2xl font-bold text-white mb-1">Tutela Pig Detection</h1>
+                            <p className="text-gray-400 text-xs sm:text-sm">Immutable AI-powered livestock monitoring</p>
                         </div>
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
                             <button
                                 onClick={() => setShowAlertsPanel(true)}
-                                className="flex items-center gap-2 px-4 py-2 bg-gray-900 hover:bg-gray-800 border border-gray-800 text-white rounded-lg transition text-sm font-medium"
+                                className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-gray-900 hover:bg-gray-800 border border-gray-800 text-white rounded-lg transition text-xs sm:text-sm font-medium"
                             >
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
                                 </svg>
-                                Alerts
+                                <span className="hidden sm:inline">Alerts</span>
                             </button>
                             <button
                                 onClick={() => setShowEmbedModal(true)}
-                                className="flex items-center gap-2 px-4 py-2 bg-gray-900 hover:bg-gray-800 border border-gray-800 text-white rounded-lg transition text-sm font-medium"
+                                className="flex-1 sm:flex-initial flex items-center justify-center gap-2 px-3 sm:px-4 py-2 bg-gray-900 hover:bg-gray-800 border border-gray-800 text-white rounded-lg transition text-xs sm:text-sm font-medium"
                             >
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
                                 </svg>
-                                Share
+                                <span className="hidden sm:inline">Share</span>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div className="grid lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
                     {/* Main Video Section */}
                     <div className="lg:col-span-2 space-y-4">
                         {/* Video Source Tabs */}
-                        <div className="bg-[#1a1a1a] border border-gray-800 rounded-xl p-1 inline-flex">
+                        <div className="backdrop-blur-md bg-black/30 border border-white/20 rounded-xl p-1 flex w-full sm:w-auto sm:inline-flex shadow-lg">
                             <button
                                 onClick={() => setActiveTab('live')}
-                                className={`px-4 py-2 rounded-lg text-sm font-medium transition ${activeTab === 'live'
-                                        ? 'bg-gray-800 text-white'
-                                        : 'text-gray-400 hover:text-white'
+                                className={`flex-1 sm:flex-initial px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition ${activeTab === 'live'
+                                    ? 'bg-gray-800 text-white'
+                                    : 'text-gray-400 hover:text-white'
                                     }`}
                             >
-                                <span className="flex items-center gap-2">
+                                <span className="flex items-center justify-center gap-1 sm:gap-2">
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                                     </svg>
-                                    Live Camera
+                                    <span className="hidden sm:inline">Live Camera</span>
+                                    <span className="sm:hidden">Live</span>
                                 </span>
                             </button>
                             <button
                                 onClick={() => setActiveTab('upload')}
-                                className={`px-4 py-2 rounded-lg text-sm font-medium transition ${activeTab === 'upload'
-                                        ? 'bg-gray-800 text-white'
-                                        : 'text-gray-400 hover:text-white'
+                                className={`flex-1 sm:flex-initial px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition ${activeTab === 'upload'
+                                    ? 'bg-gray-800 text-white'
+                                    : 'text-gray-400 hover:text-white'
                                     }`}
                             >
-                                <span className="flex items-center gap-2">
+                                <span className="flex items-center justify-center gap-1 sm:gap-2">
                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
                                     </svg>
-                                    Upload Video
+                                    <span className="hidden sm:inline">Upload Video</span>
+                                    <span className="sm:hidden">Upload</span>
                                 </span>
                             </button>
                         </div>
 
                         {/* Configuration */}
-                        <div className="bg-[#1a1a1a] border border-gray-800 rounded-xl p-4">
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center gap-4">
-                                    <label className="text-sm font-medium text-gray-300">
+                        <div className="backdrop-blur-md bg-black/30 border border-white/20 rounded-xl p-3 sm:p-4 shadow-lg">
+                            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
+                                <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto">
+                                    <label className="text-xs sm:text-sm font-medium text-gray-300 whitespace-nowrap">
                                         Expected Pig Count:
                                     </label>
                                     <input
@@ -561,7 +563,7 @@ export default function LivePigDetection() {
                                         max="10"
                                         value={expectedPigCount}
                                         onChange={(e) => setExpectedPigCount(parseInt(e.target.value) || 2)}
-                                        className="w-20 px-3 py-2 bg-[#0a0a0a] border border-gray-800 rounded-lg text-white text-sm focus:outline-none focus:border-gray-700"
+                                        className="w-20 px-3 py-2 bg-[#0a0a0a] border border-gray-800 rounded-lg text-white text-xs sm:text-sm focus:outline-none focus:border-gray-700"
                                         disabled={isStreaming}
                                     />
                                 </div>
@@ -590,12 +592,12 @@ export default function LivePigDetection() {
                                     />
 
                                     {!isStreaming && (
-                                        <div className="absolute inset-0 flex items-center justify-center bg-[#0a0a0a]">
+                                        <div className="absolute inset-0 flex items-center justify-center backdrop-blur-md bg-black/50 rounded-xl">
                                             <div className="text-center">
-                                                <svg className="w-16 h-16 text-gray-700 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <svg className="w-16 h-16 text-gray-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                                                 </svg>
-                                                <div className="text-gray-500 text-sm">Camera Inactive</div>
+                                                <div className="text-gray-400 text-sm font-medium">Camera Inactive</div>
                                             </div>
                                         </div>
                                     )}
@@ -618,11 +620,11 @@ export default function LivePigDetection() {
                                     )}
                                 </div>
 
-                                <div className="flex gap-3">
+                                <div className="flex gap-2 sm:gap-3">
                                     {!isStreaming ? (
                                         <button
                                             onClick={startCamera}
-                                            className="flex-1 bg-green-600 hover:bg-green-700 text-white font-medium py-3 rounded-lg transition flex items-center justify-center gap-2"
+                                            className="flex-1 bg-green-600 hover:bg-green-700 text-white font-medium py-2.5 sm:py-3 rounded-lg transition flex items-center justify-center gap-2 text-sm sm:text-base"
                                         >
                                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
@@ -633,7 +635,7 @@ export default function LivePigDetection() {
                                     ) : (
                                         <button
                                             onClick={stopStreaming}
-                                            className="flex-1 bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-medium py-3 rounded-lg transition flex items-center justify-center gap-2"
+                                            className="flex-1 bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-medium py-2.5 sm:py-3 rounded-lg transition flex items-center justify-center gap-2 text-sm sm:text-base"
                                         >
                                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -651,7 +653,7 @@ export default function LivePigDetection() {
                                 {!isStreaming ? (
                                     <div
                                         onClick={() => fileInputRef.current?.click()}
-                                        className="border-2 border-dashed border-gray-800 hover:border-gray-700 rounded-xl p-16 text-center cursor-pointer transition bg-[#1a1a1a]"
+                                        className="border-2 border-dashed border-white/30 hover:border-white/40 rounded-xl p-16 text-center cursor-pointer transition backdrop-blur-md bg-black/30 shadow-lg"
                                     >
                                         <svg className="w-16 h-16 text-gray-600 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
@@ -694,7 +696,7 @@ export default function LivePigDetection() {
 
                                         <button
                                             onClick={stopStreaming}
-                                            className="w-full bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-medium py-3 rounded-lg transition flex items-center justify-center gap-2"
+                                            className="w-full bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-medium py-2.5 sm:py-3 rounded-lg transition flex items-center justify-center gap-2 text-sm sm:text-base"
                                         >
                                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -711,7 +713,7 @@ export default function LivePigDetection() {
                     {/* Sidebar - Detection Info */}
                     <div className="space-y-4">
                         {/* Active Detections */}
-                        <div className="bg-[#1a1a1a] border border-gray-800 rounded-xl p-4">
+                        <div className="backdrop-blur-md bg-black/30 border border-white/20 rounded-xl p-4 shadow-lg">
                             <h3 className="text-sm font-semibold text-white mb-3">Active Tracks</h3>
                             {detections.length === 0 ? (
                                 <div className="text-center py-8">
@@ -725,7 +727,7 @@ export default function LivePigDetection() {
                                     {detections.map((det, idx) => (
                                         <div
                                             key={idx}
-                                            className="flex items-center justify-between bg-[#0a0a0a] px-3 py-2.5 rounded-lg border border-gray-800"
+                                            className="flex items-center justify-between backdrop-blur-sm bg-black/20 px-3 py-2.5 rounded-lg border border-white/5"
                                         >
                                             <div className="flex items-center gap-2">
                                                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
@@ -743,7 +745,7 @@ export default function LivePigDetection() {
                         </div>
 
                         {/* Recent Alerts */}
-                        <div className="bg-[#1a1a1a] border border-gray-800 rounded-xl p-4">
+                        <div className="backdrop-blur-md bg-black/30 border border-white/20 rounded-xl p-4 shadow-lg">
                             <div className="flex items-center justify-between mb-3">
                                 <h3 className="text-sm font-semibold text-white">Recent Alerts</h3>
                                 {alerts.length > 0 && (
@@ -762,7 +764,7 @@ export default function LivePigDetection() {
                                     {alerts.slice(0, 5).map((alert, idx) => (
                                         <div
                                             key={idx}
-                                            className={`bg-[#0a0a0a] rounded-lg p-3 border ${alert.severity === 'high' ? 'border-red-900/30' : 'border-yellow-900/30'
+                                            className={`backdrop-blur-sm bg-black/20 rounded-lg p-3 border ${alert.severity === 'high' ? 'border-red-500/30' : 'border-yellow-500/30'
                                                 }`}
                                         >
                                             <div className="flex items-center gap-2 mb-1">
@@ -782,7 +784,7 @@ export default function LivePigDetection() {
                         </div>
 
                         {/* System Status */}
-                        <div className="bg-[#1a1a1a] border border-gray-800 rounded-xl p-4">
+                        <div className="backdrop-blur-md bg-black/30 border border-white/20 rounded-xl p-4 shadow-lg">
                             <h3 className="text-sm font-semibold text-white mb-3">System Status</h3>
                             <div className="space-y-2.5">
                                 <div className="flex items-center justify-between">
