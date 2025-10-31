@@ -2,7 +2,7 @@
 
 **Early Disease Detection for Pigs** - Monitor your animals' health 24/7 with thermal imaging, AI, and blockchain-verified alerts.
 
-Tutela combines smart thermal cameras, AI-driven analysis, and a farmer-friendly interface to spot early signs of illness automatically. Built for African farmers with blockchain verification on Hedera Hashgraph.
+Tutela combines smart thermal cameras, AI-driven analysis, and a farmer-friendly interface to spot early signs of illness automatically. Built for African farmers with immutable verification on Hedera Hashgraph.
 
 ## Problem
 
@@ -36,16 +36,9 @@ Hedera HCS (blockchain logging)
 Frontend (displays detections + alerts)
 ```
 
-**Key Design Decisions:**
-- ✅ Hedera integration in Next.js (not Python backend) for faster response times
-- ✅ Expected count configurable per video/feed for flexible monitoring
-- ✅ Real-time frame-by-frame processing for immediate alert detection
-- ✅ Blockchain logging for immutable audit trail and compliance
-
-
 ## 📊 Alert Systems
 
-### Implemented Alerts
+### Motion Alerts
 
 | Alert Type           | Trigger                        | Severity | Detection Method                                                     | Status            |
 | -------------------- | ------------------------------ | -------- | -------------------------------------------------------------------- | ----------------- |
@@ -54,16 +47,12 @@ Frontend (displays detections + alerts)
 
 ### Advanced Alerts (Requires Additional Hardware)
 
-| Alert Type               | Trigger                               | Required Hardware           | Detection Method                   | Status       |
-| ------------------------ | ------------------------------------- | --------------------------- | ---------------------------------- | ------------ |
-| **Thermal Anomaly**      | Body temperature >38.5°C or <37°C     | Thermal imaging camera      | Thermal sensor data analysis       | 🔜 **Future** |
-| **Abnormal Behavior**    | Aggressive/isolated behavior patterns | Camera + AI behavior model  | Movement pattern ML classification | 🔜 **Future** |
-| **Respiratory Distress** | Unusual breathing sounds/coughing     | Microphone array + audio AI | Audio pattern recognition          | 🔜 **Future** |
-| **Weight Loss**          | Significant weight drop over time     | Weight sensors/load cells   | Time-series weight data analysis   | 🔜 **Future** |
-| **Feeding Irregularity** | Reduced feed consumption              | Feed level sensors          | Consumption rate monitoring        | 🔜 **Future** |
-| **Environmental Stress** | Temperature/humidity out of range     | Environmental sensors       | IoT sensor threshold monitoring    | 🔜 **Future** |
+| Alert Type            | Trigger                               | Required Hardware          | Detection Method                   | Status       |
+| --------------------- | ------------------------------------- | -------------------------- | ---------------------------------- | ------------ |
+| **Thermal Anomaly**   | Body temperature >38.5°C or <37°C     | Thermal imaging camera     | Thermal sensor data analysis       | 🔜 **Future** |
+| **Abnormal Behavior** | Aggressive/isolated behavior patterns | Camera + AI behavior model | Movement pattern ML classification | 🔜 **Future** |
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Prerequisites
 
@@ -150,14 +139,12 @@ All alerts are logged to Hedera Hashgraph. View them on:
 **Blockchain Integration**: Hedera Hashgraph Consensus Service (HCS)
 
 
-#### 🔗 Documents
-
-#### 🔗 Documents
-
-**Pitch Deck**: [View Pitch Deck](./assets/Tutela-DECK-Summer25.pdf)  
-**Certification/Learning**: [View Certificate](./assets/c0c6cb07-7411-4c5c-a8e1-72885502b6db.pdf)
+#### 🔗 Links
 
 
+- **Pitch Deck**: [View Pitch Deck](./assets/Tutela-DECK-Summer25.pdf)  
+- **Certification/Learning**: [View Certificate](./assets/c0c6cb07-7411-4c5c-a8e1-72885502b6db.pdf)
+- **🪶 Live Hedera HashScan Feed:** [Tutela Alert Topic — HashScan Testnet](https://hashscan.io/testnet/topic/0.0.7174333)  
 
 
 
@@ -176,4 +163,4 @@ We welcome contributions! Please open an issue or submit a pull request.
 
 **Built with ❤️ for African farmers**
 
-*Design by Iggy Love*
+
