@@ -1,0 +1,50 @@
+version: "3.8"
+
+services:
+  tutela-api:
+    build: .
+    container_name: tutela-pig-analysis
+    ports:
+      - "8002:8002"
+    volumes:
+      # Mount custom model if you have one
+      - ./models:/app/models
+      # Mount logs
+      - ./logs:/app/logs
+    environment:
+      - MODEL_PATH=/app/models/yolov8-pig.pt
+      - PYTHONUNBUFFERED=1
+      - WORKERS=1
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    deploy:
+      resources:
+        limits:
+          cpus: "2"
+          memory: 4G
+        reservations:
+          cpus: "1"
+          memory: 2G
+
+  # Optional: Nginx reverse proxy
+  nginx:
+    image: nginx:alpine
+    container_name: tutela-nginx
+    ports:
+      - "8080:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - tutela-api
+    restart: unless-stopped
+
+networks:
+  default:
+    name: tutela-network
