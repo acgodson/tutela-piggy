@@ -38,7 +38,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "Tutela | Early Disease Detection for Pigs - AI-Powered Livestock Monitoring",
-    description: "Monitor your animals' health 24/7 with thermal imaging, AI, and real-time alerts. Early disease detection can cut mortality by up to 50% and reduce antibiotic use by 30-40%. Built for African farmers with blockchain verification on Hedera.",
+    description: "Monitor your animals' health 24/7. Early disease detection can cut mortality by up to 50% and reduce antibiotic use by 30-40%. Built for African farmers..",
     url: '/',
     siteName: 'Tutela',
     images: [
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: "Tutela | Early Disease Detection for Pigs",
-    description: "Monitor your animals' health 24/7 with AI, thermal imaging, and blockchain-verified alerts. Built for African farmers.",
+    description: "Monitor your animals' health 24/7 with AI. Built for African farmers.",
     images: ['/logo.jpg'],
     creator: '@tutela',
   },

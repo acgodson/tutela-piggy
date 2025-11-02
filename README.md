@@ -2,7 +2,7 @@
 
 **Early Disease Detection for Pigs** - Monitor your animals' health 24/7 with thermal imaging, AI, and blockchain-verified alerts.
 
-Tutela combines smart thermal cameras, AI-driven analysis, and a farmer-friendly interface to spot early signs of illness automatically. Built for African farmers with immutable verification on Hedera Hashgraph.
+Tutela combines smart thermal cameras, AI-vision analysis, and a farmer-friendly interface to spot early signs of illness or farm anomalies automatically. Built for African farmers with immutable verification on Hedera Hashgraph.
 
 ## Problem
 
@@ -22,6 +22,7 @@ All alerts are **blockchain-verified** on Hedera Hashgraph for transparency, ins
 
 ## Architecture
 
+### Demo Flow
 ```
 Frontend (Next.js)
   ↓ sends frame + expected_pig_count
@@ -36,6 +37,24 @@ Hedera HCS (blockchain logging)
 Frontend (displays detections + alerts)
 ```
 
+### Project Structure
+
+| Layer | File | Purpose |
+|-------|------|---------|
+| **API Routes** | `app/api/detect/route.ts` | Request orchestration & service composition |
+| **Services** | `services/hedera.service.ts` | Hedera blockchain operations & HCS logging |
+| | `services/alert-detection.service.ts` | Alert detection logic & position tracking |
+| | `services/backend.service.ts` | Python backend communication |
+| **Hooks** | `hooks/useVideoStream.ts` | Video streaming & camera management |
+| | `hooks/useDetection.ts` | AI detection processing loop |
+| | `hooks/useModals.ts` | Modal state management |
+| | `hooks/useEmbed.ts` | Embed code generation utilities |
+| **Components** | `components/EmbedModal.tsx` | Share & embed modal UI |
+| | `components/AlertsPanel.tsx` | Alerts history panel |
+| | `components/VideoPlayer.tsx` | Video display with overlays |
+| | `components/DetectionSidebar.tsx` | Detection info sidebar |
+| **Main** | `LivePigDetection.tsx` | Main orchestration component |
+
 ## 📊 Alert Systems
 
 ### Motion Alerts
@@ -49,10 +68,10 @@ Frontend (displays detections + alerts)
 
 | Alert Type            | Trigger                               | Required Hardware          | Detection Method                   | Status       |
 | --------------------- | ------------------------------------- | -------------------------- | ---------------------------------- | ------------ |
-| **Thermal Anomaly**   | Body temperature >38.5°C or <37°C     | Thermal imaging camera     | Thermal sensor data analysis       | 🔜 **Future** |
+| **Thermal Anomaly**   | Body temperature >38.5°C or <37°C     | Thermal imaging camera     | Thermal sensor data analysis       | ✅ **Implemented** |
 | **Abnormal Behavior** | Aggressive/isolated behavior patterns | Camera + AI behavior model | Movement pattern ML classification | 🔜 **Future** |
 
-*🎥 [Watch Demo: Thermal Hardware Capturing and Sending Alerts to Hedera](https://vimeo.com/1040586569)*
+*🎥 [Watch Demo: Tutela thermal Hardware Capturing and Sending Alerts to Hedera](https://vimeo.com/1040586569)*
 
 ## Quick Start
 
@@ -66,8 +85,8 @@ Frontend (displays detections + alerts)
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/tutela-piggy/tutela-app.git
-   cd tutela-app
+   git clone https://github.com/tutela-piggy/tutela-piggy.git
+   cd tutela-piggy
    ```
 
 2. **Backend Setup**
@@ -118,14 +137,6 @@ All alerts are logged to Hedera Hashgraph. View them on:
 - **Hashscan**: `https://hashscan.io/testnet/topic/{HEDERA_TOPIC_ID}`
 - Receipts include: timestamp, alert type, pig ID, severity, and action recommendations
 
-## 💰 Impact & Benefits
-
-- **50% reduction** in mortality through early intervention
-- **30-40% reduction** in antibiotic use
-- **24/7 monitoring** without human intervention
-- **Blockchain verification** for insurance claims and compliance
-- **Off-grid capable** with solar + battery options
-- **SMS fallback** for low-connectivity areas
 
 ## 🛠️ Tech Stack
 
@@ -140,15 +151,11 @@ All alerts are logged to Hedera Hashgraph. View them on:
 **Category**: Agriculture / Health Monitoring  
 **Blockchain Integration**: Hedera Hashgraph Consensus Service (HCS)
 
-
 #### 🔗 Links
-
 
 - **Pitch Deck**: [View Pitch Deck](./assets/Tutela-DECK-Summer25.pdf)  
 - **Certification/Learning**: [View Certificate](./assets/c0c6cb07-7411-4c5c-a8e1-72885502b6db.pdf)
-- **🪶 Live Hedera HashScan Feed:** [Tutela Alert Topic — HashScan Testnet](https://hashscan.io/testnet/topic/0.0.7174333)  
-
-
+- **🪶 Live Hedera HashScan Feed**: [Tutela Alert Topic — HashScan Testnet](https://hashscan.io/testnet/topic/0.0.7174333)
 
 ## 🤝 Contributing
 
@@ -160,9 +167,6 @@ We welcome contributions! Please open an issue or submit a pull request.
 - **GitHub**: [github.com/tutela-piggy](https://github.com/tutela-piggy)
 - **Demo**: [View Demo](https://tutela-piggy.vercel.app/pig-detection)
 
-
 ---
 
 **Built with ❤️ for African farmers**
-
-
