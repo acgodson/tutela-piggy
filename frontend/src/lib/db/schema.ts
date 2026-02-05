@@ -13,9 +13,9 @@ export const pigRegistry = pgTable('pig_registry', {
     createdAt: timestamp('created_at').defaultNow().notNull(),
     updatedAt: timestamp('updated_at').defaultNow().notNull(),
 }, (table) => ({
-    pigIdIdx: index('pig_id_idx').on(table.pigId),
-    pigNumberIdx: index('pig_number_idx').on(table.pigNumber),
-    penIdIdx: index('pen_id_idx').on(table.penId),
+    pigIdIdx: index('registry_pig_id_idx').on(table.pigId),
+    pigNumberIdx: index('registry_pig_number_idx').on(table.pigNumber),
+    penIdIdx: index('registry_pen_id_idx').on(table.penId),
 }));
 
 // Frame-level detections (raw data from each video frame)
@@ -59,11 +59,11 @@ export const pigDetections = pgTable('pig_detections', {
     movementSpeed: real('movement_speed'),
     activityLevel: varchar('activity_level', { length: 20 }), // resting, walking, active, running
 }, (table) => ({
-    timestampIdx: index('timestamp_idx').on(table.timestamp),
-    pigNumberIdx: index('pig_number_idx').on(table.pigNumber),
-    batchIdIdx: index('batch_id_idx').on(table.batchId),
-    frameNumberIdx: index('frame_number_idx').on(table.frameNumber),
-    cameraIdIdx: index('camera_id_idx').on(table.cameraId),
+    timestampIdx: index('detections_timestamp_idx').on(table.timestamp),
+    pigNumberIdx: index('detections_pig_number_idx').on(table.pigNumber),
+    batchIdIdx: index('detections_batch_id_idx').on(table.batchId),
+    frameNumberIdx: index('detections_frame_number_idx').on(table.frameNumber),
+    cameraIdIdx: index('detections_camera_id_idx').on(table.cameraId),
 }));
 
 // Aggregated daily tracking data (processed from raw detections)
@@ -119,10 +119,10 @@ export const pigAlerts = pgTable('pig_alerts', {
     farmerNotes: text('farmer_notes'),
     actionTaken: varchar('action_taken', { length: 100 }),
 }, (table) => ({
-    pigIdIdx: index('pig_id_idx').on(table.pigId),
-    timestampIdx: index('timestamp_idx').on(table.timestamp),
-    resolvedIdx: index('resolved_idx').on(table.resolved),
-    severityIdx: index('severity_idx').on(table.severity),
+    pigIdIdx: index('alerts_pig_id_idx').on(table.pigId),
+    timestampIdx: index('alerts_timestamp_idx').on(table.timestamp),
+    resolvedIdx: index('alerts_resolved_idx').on(table.resolved),
+    severityIdx: index('alerts_severity_idx').on(table.severity),
 }));
 
 // Camera and pen configuration
@@ -147,8 +147,8 @@ export const cameraConfig = pgTable('camera_config', {
     active: boolean('active').default(true).notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
 }, (table) => ({
-    cameraIdIdx: index('camera_id_idx').on(table.cameraId),
-    penIdIdx: index('pen_id_idx').on(table.penId),
+    cameraIdIdx: index('config_camera_id_idx').on(table.cameraId),
+    penIdIdx: index('config_pen_id_idx').on(table.penId),
 }));
 
 // Video processing sessions
@@ -178,10 +178,10 @@ export const videoSessions = pgTable('video_sessions', {
     pigTrackingSummary: jsonb('pig_tracking_summary'), // {pigNumber: {appearances, avgConfidence}}
     uniquePigsIdentified: integer('unique_pigs_identified').default(0),
 }, (table) => ({
-    batchIdIdx: index('batch_id_idx').on(table.batchId),
-    statusIdx: index('status_idx').on(table.status),
-    startedAtIdx: index('started_at_idx').on(table.startedAt),
-    sessionTypeIdx: index('session_type_idx').on(table.sessionType),
+    batchIdIdx: index('sessions_batch_id_idx').on(table.batchId),
+    statusIdx: index('sessions_status_idx').on(table.status),
+    startedAtIdx: index('sessions_started_at_idx').on(table.startedAt),
+    sessionTypeIdx: index('sessions_type_idx').on(table.sessionType),
 }));
 export const farmConfig = pgTable('farm_config', {
     id: serial('id').primaryKey(),
