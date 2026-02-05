@@ -43,7 +43,7 @@ export default async function HomePage() {
                 Unable to load landing page
               </div>
               <Link
-                href="/pig-detection"
+                href="/video-analysis"
                 className="text-blue-500 hover:text-blue-400 text-sm underline"
               >
                 Go to Live Demo →
