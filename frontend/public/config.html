@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutela - Camera Setup Guide</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Step-by-step guide to configure V380 Pro IP cameras for Tutela livestock monitoring system. Enable RTSP streaming and connect to Tutela cloud.">
+    <meta name="keywords" content="Tutela, V380 Pro, camera setup, RTSP, livestock monitoring, pig farming, IoT camera">
+    <meta name="author" content="Tutela Team">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://tutela-piggy.vercel.app/config.html">
+    <meta property="og:title" content="Tutela - V380 Pro Camera Setup Guide">
+    <meta property="og:description" content="Step-by-step guide to configure V380 Pro IP cameras for Tutela livestock monitoring. Enable RTSP and connect to the cloud.">
+    <meta property="og:image" content="https://tutela-piggy.vercel.app/pigs.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://tutela-piggy.vercel.app/config.html">
+    <meta property="twitter:title" content="Tutela - V380 Pro Camera Setup Guide">
+    <meta property="twitter:description" content="Step-by-step guide to configure V380 Pro IP cameras for Tutela livestock monitoring.">
+    <meta property="twitter:image" content="https://tutela-piggy.vercel.app/pigs.jpg">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/jpeg" href="/logo.jpg">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #fafafa;
+            color: #1a1a1a;
+            line-height: 1.7;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #1a1a1a;
+            color: #fff;
+            padding: 4px 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-top: 12px;
+        }
+
+        .nav-links {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-size: 0.9rem;
+            padding: 8px 16px;
+            border: 1px solid #e0e0e0;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            background: #1a1a1a;
+            color: #fff;
+            border-color: #1a1a1a;
+        }
+
+        .toc {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            padding: 24px;
+            margin-bottom: 40px;
+        }
+
+        .toc h2 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #666;
+        }
+
+        .toc ul {
+            list-style: none;
+            columns: 2;
+            column-gap: 24px;
+        }
+
+        .toc li {
+            margin-bottom: 8px;
+        }
+
+        .toc a {
+            color: #1a1a1a;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 600px) {
+            .toc ul {
+                columns: 1;
+            }
+        }
+
+        section {
+            margin-bottom: 48px;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #1a1a1a;
+        }
+
+        h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin: 24px 0 12px 0;
+            color: #333;
+        }
+
+        h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 16px 0 8px 0;
+            color: #444;
+        }
+
+        p {
+            margin-bottom: 16px;
+            color: #444;
+        }
+
+        ul, ol {
+            margin-bottom: 16px;
+            padding-left: 24px;
+        }
+
+        li {
+            margin-bottom: 8px;
+            color: #444;
+        }
+
+        code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+            font-size: 0.9em;
+            border-radius: 3px;
+        }
+
+        pre {
+            background: #1a1a1a;
+            color: #f0f0f0;
+            padding: 20px;
+            overflow-x: auto;
+            margin-bottom: 20px;
+            font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .step-box {
+            background: #fff;
+            border: 2px solid #1a1a1a;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 32px;
+            height: 32px;
+            background: #1a1a1a;
+            color: #fff;
+            text-align: center;
+            line-height: 32px;
+            font-weight: 600;
+            margin-right: 12px;
+        }
+
+        .step-title {
+            display: inline;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .alert {
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid;
+        }
+
+        .alert-info {
+            background: #f0f7ff;
+            border-color: #0066cc;
+        }
+
+        .alert-warning {
+            background: #fff8e6;
+            border-color: #cc8800;
+        }
+
+        .alert-success {
+            background: #f0fff4;
+            border-color: #00aa44;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        th, td {
+            border: 1px solid #e0e0e0;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background: #f5f5f5;
+            font-weight: 600;
+        }
+
+        .diagram {
+            background: #f9f9f9;
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        footer {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media print {
+            .nav-links {
+                display: none;
+            }
+            body {
+                background: #fff;
+            }
+            pre {
+                white-space: pre-wrap;
+                word-wrap: break-word;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            .container {
+                padding: 20px 16px;
+            }
+            pre {
+                padding: 12px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>V380 Pro Camera Setup Guide</h1>
+            <p class="subtitle">Configure your camera for Tutela livestock monitoring</p>
+            <span class="badge">Quick Setup: ~10 Minutes</span>
+            <div class="nav-links">
+                <a href="/">Home</a>
+                <a href="/flow.html">Architecture</a>
+                <a href="/video-analysis">Live Demo</a>
+            </div>
+        </header>
+
+        <nav class="toc">
+            <h2>Table of Contents</h2>
+            <ul>
+                <li><a href="#prerequisites">Prerequisites</a></li>
+                <li><a href="#step1">Step 1: Create Config File</a></li>
+                <li><a href="#step2">Step 2: Apply to Camera</a></li>
+                <li><a href="#step3">Step 3: SIM Card Setup</a></li>
+                <li><a href="#step4">Step 4: Find IP Address</a></li>
+                <li><a href="#step5">Step 5: Test RTSP Stream</a></li>
+                <li><a href="#step6">Step 6: Register with Tutela</a></li>
+                <li><a href="#step7">Step 7: Frame Pusher Agent</a></li>
+                <li><a href="#dynamic-ip">Handling Dynamic IPs</a></li>
+                <li><a href="#troubleshooting">Troubleshooting</a></li>
+                <li><a href="#farm-config">Per-Farm Configuration</a></li>
+                <li><a href="#security">Security</a></li>
+            </ul>
+        </nav>
+
+        <section id="prerequisites">
+            <h2>Prerequisites</h2>
+            <ul>
+                <li>V380 Pro camera (already set up with V380 Pro mobile app)</li>
+                <li>MicroSD card (any size, FAT32 formatted)</li>
+                <li>Computer with SD card reader</li>
+                <li>SIM card with active data plan (MTN, Airtel, Glo, etc.)</li>
+                <li>Your <strong>Farm ID</strong> (provided by Tutela team during onboarding)</li>
+            </ul>
+        </section>
+
+        <section id="step1">
+            <div class="step-box">
+                <span class="step-number">1</span>
+                <h3 class="step-title">Create the Configuration File</h3>
+            </div>
+
+            <h4>On Windows:</h4>
+            <ol>
+                <li>Insert MicroSD card into your computer</li>
+                <li>Open Notepad</li>
+                <li>Paste this content:
+<pre><code>[CONST_PARAM]
+rtsp_enable = 1
+rtsp = 1
+rtsp_ctrl = 1</code></pre>
+                </li>
+                <li>Click <strong>File → Save As</strong></li>
+                <li>Change "Save as type" to <strong>All Files</strong></li>
+                <li>Name it exactly: <code>ceshi.ini</code></li>
+                <li>Save to the <strong>root</strong> of the SD card (not in any folder)</li>
+            </ol>
+
+            <h4>On Mac:</h4>
+            <ol>
+                <li>Insert MicroSD card</li>
+                <li>Open Terminal and run:</li>
+            </ol>
+<pre><code>echo "[CONST_PARAM]
+rtsp_enable = 1
+rtsp = 1
+rtsp_ctrl = 1" > /Volumes/YOUR_SD_CARD/ceshi.ini</code></pre>
+            <p>Replace <code>YOUR_SD_CARD</code> with your SD card's name.</p>
+
+            <h4>On Linux:</h4>
+<pre><code>echo "[CONST_PARAM]
+rtsp_enable = 1
+rtsp = 1
+rtsp_ctrl = 1" > /media/$USER/YOUR_SD_CARD/ceshi.ini</code></pre>
+        </section>
+
+        <section id="step2">
+            <div class="step-box">
+                <span class="step-number">2</span>
+                <h3 class="step-title">Apply Configuration to Camera</h3>
+            </div>
+
+            <ol>
+                <li><strong>Power OFF</strong> the camera (unplug it)</li>
+                <li><strong>Insert</strong> the MicroSD card into the camera</li>
+                <li><strong>Power ON</strong> the camera (plug it back in)</li>
+                <li><strong>Wait 5 minutes</strong> (camera reads and applies config)</li>
+                <li><strong>Power OFF</strong> the camera again</li>
+                <li><strong>Remove</strong> the MicroSD card</li>
+                <li><strong>Delete</strong> the <code>ceshi.ini</code> file from the card (optional but recommended)</li>
+                <li><strong>Power ON</strong> the camera</li>
+            </ol>
+
+            <div class="alert alert-success">
+                <strong>RTSP is now enabled!</strong>
+            </div>
+        </section>
+
+        <section id="step3">
+            <div class="step-box">
+                <span class="step-number">3</span>
+                <h3 class="step-title">Insert SIM Card and Connect</h3>
+            </div>
+
+            <ol>
+                <li><strong>Insert SIM card</strong> into the camera's SIM slot</li>
+                <li>Power on the camera</li>
+                <li>Wait for the camera to connect to mobile network (LED indicator will stabilize)</li>
+                <li>Open <strong>V380 Pro app</strong> on your phone</li>
+                <li>Verify camera is online and streaming</li>
+            </ol>
+        </section>
+
+        <section id="step4">
+            <div class="step-box">
+                <span class="step-number">4</span>
+                <h3 class="step-title">Find Your Camera's IP Address</h3>
+            </div>
+
+            <h4>Option A: V380 Pro App</h4>
+            <ol>
+                <li>Open V380 Pro app</li>
+                <li>Tap your camera</li>
+                <li>Go to <strong>Settings → Device Info</strong></li>
+                <li>Note the IP address (e.g., <code>102.89.45.123</code>)</li>
+            </ol>
+
+            <h4>Option B: Camera's Built-in Page</h4>
+            <p>Some V380 cameras expose a web interface. Try accessing:</p>
+<pre><code>http://[camera-ip]/</code></pre>
+
+            <div class="alert alert-warning">
+                <strong>Note:</strong> With SIM card connections, your IP will be a <strong>public mobile IP</strong> assigned by your carrier. This IP <strong>will change</strong> periodically (see Dynamic IP section below).
+            </div>
+        </section>
+
+        <section id="step5">
+            <div class="step-box">
+                <span class="step-number">5</span>
+                <h3 class="step-title">Test the RTSP Stream</h3>
+            </div>
+
+            <h4>Using VLC Media Player (Recommended)</h4>
+            <ol>
+                <li>Download VLC: <a href="https://www.videolan.org/" target="_blank">https://www.videolan.org/</a></li>
+                <li>Open VLC</li>
+                <li>Click <strong>Media → Open Network Stream</strong></li>
+                <li>Enter URL:
+<pre><code>rtsp://[CAMERA_IP]:554/live/ch00_0</code></pre>
+                </li>
+                <li>Click <strong>Play</strong></li>
+            </ol>
+
+            <div class="alert alert-success">
+                If video appears, RTSP is working!
+            </div>
+
+            <h4>Using Python/OpenCV</h4>
+<pre><code>import cv2
+
+cap = cv2.VideoCapture("rtsp://[CAMERA_IP]:554/live/ch00_0")
+
+while True:
+    ret, frame = cap.read()
+    if ret:
+        cv2.imshow("V380 Stream", frame)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()</code></pre>
+        </section>
+
+        <section id="step6">
+            <div class="step-box">
+                <span class="step-number">6</span>
+                <h3 class="step-title">Register Camera with Tutela</h3>
+            </div>
+
+            <p>Since SIM cards provide <strong>dynamic IPs</strong> that change, your camera needs to be registered with Tutela so we can track it.</p>
+
+            <h4>Option A: Tutela Dashboard (Recommended)</h4>
+            <ol>
+                <li>Log into <strong>Tutela Dashboard</strong> at <a href="https://tutela-piggy.vercel.app">https://tutela-piggy.vercel.app</a></li>
+                <li>Go to <strong>Settings → Cameras</strong></li>
+                <li>Click <strong>Add Camera</strong></li>
+                <li>Enter:
+                    <ul>
+                        <li><strong>Farm ID</strong>: Your unique farm identifier (e.g., <code>FARM-LAGOS-001</code>)</li>
+                        <li><strong>Pen ID</strong>: Which pen this camera monitors (e.g., <code>PEN-A</code>)</li>
+                        <li><strong>Camera Name</strong>: Friendly name (e.g., <code>Main Pen Camera</code>)</li>
+                        <li><strong>Expected Pig Count</strong>: Number of pigs in this pen</li>
+                    </ul>
+                </li>
+                <li>Click <strong>Register</strong></li>
+                <li>You'll receive a <strong>Camera Token</strong> - save this!</li>
+            </ol>
+
+            <h4>Option B: API Registration</h4>
+<pre><code>curl -X POST https://tutela-piggy.vercel.app/api/cameras/register \
+  -H "Content-Type: application/json" \
+  -d '{
+    "farm_id": "FARM-LAGOS-001",
+    "pen_id": "PEN-A",
+    "camera_name": "Main Pen Camera",
+    "expected_pig_count": 25
+  }'</code></pre>
+
+            <p>Response:</p>
+<pre><code>{
+  "camera_id": "CAM-001-ABC123",
+  "camera_token": "tk_live_xxxxxxxxxxxx",
+  "ingest_url": "https://api.tutela.farm/ingest"
+}</code></pre>
+        </section>
+
+        <section id="step7">
+            <div class="step-box">
+                <span class="step-number">7</span>
+                <h3 class="step-title">Set Up Frame Pusher Agent</h3>
+            </div>
+
+            <p>Since mobile IPs change, we use a <strong>push model</strong> where your camera sends frames to Tutela (instead of Tutela pulling from your camera).</p>
+
+            <h4>Option A: Raspberry Pi Agent (Recommended for Farms)</h4>
+            <p>We provide a pre-configured Raspberry Pi that:</p>
+            <ul>
+                <li>Connects to your camera via local RTSP</li>
+                <li>Pushes frames to Tutela cloud every 2 seconds</li>
+                <li>Works regardless of IP changes</li>
+            </ul>
+
+            <p><strong>Setup:</strong></p>
+            <ol>
+                <li>Connect Raspberry Pi to same network as camera (via hotspot or SIM router)</li>
+                <li>Power on the Pi</li>
+                <li>It auto-discovers the camera and starts streaming</li>
+            </ol>
+
+            <h4>Option B: Android Phone Agent</h4>
+            <p>Use an old Android phone as the pusher:</p>
+            <ol>
+                <li>Download <strong>Tutela Agent</strong> app from Play Store</li>
+                <li>Open app and enter your <strong>Camera Token</strong></li>
+                <li>Enter camera's local IP (if on same WiFi) or let it auto-discover</li>
+                <li>Tap <strong>Start Streaming</strong></li>
+            </ol>
+
+            <h4>Option C: Direct Push (If Camera Supports)</h4>
+            <p>Some V380 variants support webhook/push. Configure in V380 app:</p>
+            <ul>
+                <li>Push URL: <code>https://api.tutela.farm/ingest</code></li>
+                <li>Auth Header: <code>Bearer [YOUR_CAMERA_TOKEN]</code></li>
+            </ul>
+        </section>
+
+        <section id="dynamic-ip">
+            <h2>Handling Dynamic IPs (SIM Networks)</h2>
+
+            <h3>Why IPs Change</h3>
+            <p>Mobile carriers assign <strong>dynamic public IPs</strong> that change when:</p>
+            <ul>
+                <li>Camera reboots</li>
+                <li>SIM reconnects to network</li>
+                <li>Carrier rotates IP pool</li>
+                <li>Network congestion triggers reassignment</li>
+            </ul>
+
+            <h3>How Tutela Handles This</h3>
+            <div class="diagram">┌─────────────────────────────────────────────────────────────────┐
+│                    TUTELA ARCHITECTURE                          │
+│                                                                 │
+│   ┌──────────────┐                    ┌──────────────────────┐  │
+│   │ V380 Camera  │                    │ Tutela Cloud         │  │
+│   │ (Dynamic IP) │                    │ (Static IP)          │  │
+│   │              │    PUSH FRAMES     │                      │  │
+│   │  102.89.x.x  │ ─────────────────► │  46.51.143.72        │  │
+│   │  (changes!)  │                    │  (never changes)     │  │
+│   └──────────────┘                    └──────────────────────┘  │
+│         │                                       │               │
+│         │ Camera identifies itself              │               │
+│         │ using CAMERA_TOKEN                    │               │
+│         │ (not IP address)                      ▼               │
+│                                         ┌──────────────┐        │
+│                                         │  PostgreSQL  │        │
+│                                         │  (tracks all │        │
+│                                         │   cameras)   │        │
+│                                         └──────────────┘        │
+└─────────────────────────────────────────────────────────────────┘</div>
+
+            <div class="alert alert-info">
+                <strong>Key Point:</strong> Your camera is identified by its <strong>Camera Token</strong>, not its IP. The IP can change freely.
+            </div>
+        </section>
+
+        <section id="troubleshooting">
+            <h2>Troubleshooting</h2>
+
+            <h3>Stream won't connect</h3>
+            <table>
+                <tr>
+                    <th>Issue</th>
+                    <th>Solution</th>
+                </tr>
+                <tr>
+                    <td>Connection refused</td>
+                    <td>Ensure camera and test device are on same network</td>
+                </tr>
+                <tr>
+                    <td>Timeout</td>
+                    <td>Check if SIM has active data, verify signal strength</td>
+                </tr>
+                <tr>
+                    <td>Black screen</td>
+                    <td>Try alternate URL: <code>rtsp://IP:554/live/ch00_1</code></td>
+                </tr>
+                <tr>
+                    <td>Authentication error</td>
+                    <td>Try: <code>rtsp://admin:admin@IP:554/live/ch00_0</code></td>
+                </tr>
+            </table>
+
+            <h3>RTSP not enabled after config</h3>
+            <p>Different V380 hardware versions need different settings. Try these <code>ceshi.ini</code> variations:</p>
+
+            <p><strong>Version A:</strong></p>
+<pre><code>[CONST_PARAM]
+rtsp = 1</code></pre>
+
+            <p><strong>Version B:</strong></p>
+<pre><code>[CONST_PARAM]
+rtsp_enable = 1</code></pre>
+
+            <p><strong>Version C (try all):</strong></p>
+<pre><code>[CONST_PARAM]
+rtsp = 1
+rtsp_enable = 1
+rtsp_ctrl = 1
+onvif = 1</code></pre>
+
+            <h3>Camera keeps going offline</h3>
+            <ul>
+                <li>Check SIM data balance</li>
+                <li>Verify signal strength (move camera if weak)</li>
+                <li>Ensure power supply is stable (use UPS if available)</li>
+            </ul>
+
+            <h3>High data usage</h3>
+            <ul>
+                <li>Reduce frame rate in V380 app settings</li>
+                <li>Use motion-triggered recording instead of continuous</li>
+                <li>Configure Tutela agent to sample 1 frame per second</li>
+            </ul>
+        </section>
+
+        <section id="farm-config">
+            <h2>Per-Farm Configuration</h2>
+            <p>Each farm deployment gets unique identifiers:</p>
+
+            <table>
+                <tr>
+                    <th>Field</th>
+                    <th>Example</th>
+                    <th>Description</th>
+                </tr>
+                <tr>
+                    <td><strong>Farm ID</strong></td>
+                    <td><code>FARM-LAGOS-001</code></td>
+                    <td>Unique identifier for the farm</td>
+                </tr>
+                <tr>
+                    <td><strong>Pen ID</strong></td>
+                    <td><code>PEN-A</code>, <code>PEN-B</code></td>
+                    <td>Identifies specific pig pen</td>
+                </tr>
+                <tr>
+                    <td><strong>Camera Token</strong></td>
+                    <td><code>tk_live_abc123...</code></td>
+                    <td>Auth token for this camera</td>
+                </tr>
+                <tr>
+                    <td><strong>Expected Count</strong></td>
+                    <td><code>25</code></td>
+                    <td>Number of pigs in pen</td>
+                </tr>
+            </table>
+
+            <p>These are stored in Tutela's database and linked to your camera automatically.</p>
+
+            <h3>Network Diagram</h3>
+            <div class="diagram">                        FARM DEPLOYMENT
+┌─────────────────────────────────────────────────────────────┐
+│                                                             │
+│  ┌──────────┐         ┌──────────────┐                      │
+│  │ V380 Pro │◄───────►│ SIM Router   │                      │
+│  │ Camera   │  WiFi   │ or Hotspot   │                      │
+│  └──────────┘         └──────┬───────┘                      │
+│       │                      │                              │
+│       │ RTSP                 │ 4G LTE                       │
+│       │ (local)              │                              │
+│       ▼                      │                              │
+│  ┌──────────┐                │                              │
+│  │ Raspberry│                │                              │
+│  │ Pi Agent │────────────────┘                              │
+│  │          │     Push frames to cloud                      │
+│  └──────────┘                                               │
+│                                                             │
+└─────────────────────────────────────────────────────────────┘
+                              │
+                              │ HTTPS (port 443)
+                              │ POST /api/ingest
+                              ▼
+                    ┌──────────────────┐
+                    │  TUTELA CLOUD    │
+                    │                  │
+                    │  • FastAPI       │
+                    │  • YOLOv8        │
+                    │  • PostgreSQL    │
+                    └──────────────────┘</div>
+        </section>
+
+        <section id="security">
+            <h2>Security Recommendations</h2>
+            <ol>
+                <li><strong>Change default camera credentials</strong> in V380 app</li>
+                <li><strong>Keep Camera Token secret</strong> - treat it like a password</li>
+                <li><strong>Use HTTPS</strong> for all API communications (Tutela enforces this)</li>
+                <li><strong>Update camera firmware</strong> when available</li>
+                <li><strong>Secure the Pi agent</strong> - change default SSH password</li>
+            </ol>
+        </section>
+
+        <section id="support">
+            <h2>Support</h2>
+            <p>If you encounter issues during setup:</p>
+            <ul>
+                <li><strong>Email</strong>: support@tutela.farm</li>
+                <li><strong>WhatsApp</strong>: +234 XXX XXX XXXX</li>
+                <li><strong>Dashboard</strong>: <a href="https://tutela-piggy.vercel.app/support">https://tutela-piggy.vercel.app/support</a></li>
+            </ul>
+            <p>Include your <strong>Farm ID</strong> and <strong>Camera ID</strong> when contacting support.</p>
+        </section>
+
+        <footer>
+            <p>Tutela — AI-Powered Livestock Health Monitoring</p>
+            <p style="margin-top: 8px; font-size: 0.85rem;">
+                <a href="/flow.html" style="color: #666;">Technical Architecture</a> ·
+                <a href="/video-analysis" style="color: #666;">Live Demo</a> ·
+                <a href="/" style="color: #666;">Home</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
