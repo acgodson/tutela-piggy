@@ -343,7 +343,7 @@
                 <li><a href="#step4">Step 4: Find IP Address</a></li>
                 <li><a href="#step5">Step 5: Test RTSP Stream</a></li>
                 <li><a href="#step6">Step 6: Register with Tutela</a></li>
-                <li><a href="#step7">Step 7: Frame Pusher Agent</a></li>
+                <li><a href="#step7">Step 7: Connect to Tutela Cloud</a></li>
                 <li><a href="#dynamic-ip">Handling Dynamic IPs</a></li>
                 <li><a href="#troubleshooting">Troubleshooting</a></li>
                 <li><a href="#farm-config">Per-Farm Configuration</a></li>
@@ -545,41 +545,77 @@ cv2.destroyAllWindows()</code></pre>
         <section id="step7">
             <div class="step-box">
                 <span class="step-number">7</span>
-                <h3 class="step-title">Set Up Frame Pusher Agent</h3>
+                <h3 class="step-title">Connect Camera to Tutela Cloud</h3>
             </div>
 
-            <p>Since mobile IPs change, we use a <strong>push model</strong> where your camera sends frames to Tutela (instead of Tutela pulling from your camera).</p>
+            <p>Since SIM-based cameras have <strong>dynamic IPs</strong> that change, we need a way for Tutela to reliably connect to your camera.</p>
 
-            <h4>Option A: Raspberry Pi Agent (Recommended for Farms)</h4>
-            <p>We provide a pre-configured Raspberry Pi that:</p>
-            <ul>
-                <li>Connects to your camera via local RTSP</li>
-                <li>Pushes frames to Tutela cloud every 2 seconds</li>
-                <li>Works regardless of IP changes</li>
-            </ul>
+            <h4>Option A: Request Static IP from Carrier (Recommended)</h4>
+            <p>Contact your mobile carrier to request a <strong>static/fixed public IP</strong> for your SIM card:</p>
 
-            <p><strong>Setup:</strong></p>
+            <table>
+                <tr>
+                    <th>Carrier</th>
+                    <th>How to Request</th>
+                    <th>Est. Cost</th>
+                </tr>
+                <tr>
+                    <td>MTN Nigeria</td>
+                    <td>Call 180 or visit enterprise center, request "Static IP for IoT"</td>
+                    <td>₦5,000-10,000/month</td>
+                </tr>
+                <tr>
+                    <td>Airtel Nigeria</td>
+                    <td>Contact Airtel Business, request fixed IP add-on</td>
+                    <td>₦3,000-8,000/month</td>
+                </tr>
+                <tr>
+                    <td>Glo Nigeria</td>
+                    <td>Visit Gloworld, request enterprise SIM with static IP</td>
+                    <td>₦4,000-7,000/month</td>
+                </tr>
+            </table>
+
+            <p>Once you have a static IP, provide it to Tutela during camera registration. We can then pull frames directly from your camera.</p>
+
+            <div class="alert alert-info">
+                <strong>Why Static IP?</strong> With a fixed IP address, Tutela can connect to your camera anytime without needing additional hardware or apps.
+            </div>
+
+            <h4>Option B: Use V380 Cloud P2P (Fallback)</h4>
+            <p>If static IP isn't available, the V380 Pro camera has built-in P2P cloud connectivity:</p>
             <ol>
-                <li>Connect Raspberry Pi to same network as camera (via hotspot or SIM router)</li>
-                <li>Power on the Pi</li>
-                <li>It auto-discovers the camera and starts streaming</li>
+                <li>Ensure camera is registered in <strong>V380 Pro app</strong></li>
+                <li>Note your camera's <strong>Device ID</strong> (found in app settings)</li>
+                <li>Provide the Device ID to Tutela support</li>
+                <li>We can access the stream via V380's cloud relay</li>
             </ol>
 
-            <h4>Option B: Android Phone Agent</h4>
-            <p>Use an old Android phone as the pusher:</p>
+            <div class="alert alert-warning">
+                <strong>Limitation:</strong> P2P adds latency (~2-5 seconds) and depends on V380's cloud servers being available.
+            </div>
+
+            <h4>Option C: VPN Tunnel (Advanced)</h4>
+            <p>For farms with multiple cameras, we can set up a VPN tunnel:</p>
             <ol>
-                <li>Download <strong>Tutela Agent</strong> app from Play Store</li>
-                <li>Open app and enter your <strong>Camera Token</strong></li>
-                <li>Enter camera's local IP (if on same WiFi) or let it auto-discover</li>
-                <li>Tap <strong>Start Streaming</strong></li>
+                <li>Install VPN client on a local router/gateway at the farm</li>
+                <li>VPN connects to Tutela's server and gets a fixed internal IP</li>
+                <li>All cameras on that network become accessible via the VPN</li>
+            </ol>
+            <p>Contact Tutela support for VPN setup assistance.</p>
+
+            <h4>Option D: DDNS (Dynamic DNS)</h4>
+            <p>Some V380 cameras support DDNS services:</p>
+            <ol>
+                <li>Sign up for a free DDNS service (No-IP, DuckDNS, etc.)</li>
+                <li>Configure DDNS in camera settings (if supported)</li>
+                <li>Your camera gets a hostname like <code>farm001.ddns.net</code></li>
+                <li>Tutela connects using the hostname instead of IP</li>
             </ol>
 
-            <h4>Option C: Direct Push (If Camera Supports)</h4>
-            <p>Some V380 variants support webhook/push. Configure in V380 app:</p>
-            <ul>
-                <li>Push URL: <code>https://api.tutela.farm/ingest</code></li>
-                <li>Auth Header: <code>Bearer [YOUR_CAMERA_TOKEN]</code></li>
-            </ul>
+            <div class="alert alert-warning">
+                <strong>Note:</strong> Not all V380 models support DDNS. Check your camera's settings menu.
+            </div>
         </section>
 
         <section id="dynamic-ip">
@@ -594,30 +630,38 @@ cv2.destroyAllWindows()</code></pre>
                 <li>Network congestion triggers reassignment</li>
             </ul>
 
-            <h3>How Tutela Handles This</h3>
-            <div class="diagram">┌─────────────────────────────────────────────────────────────────┐
-│                    TUTELA ARCHITECTURE                          │
-│                                                                 │
-│   ┌──────────────┐                    ┌──────────────────────┐  │
-│   │ V380 Camera  │                    │ Tutela Cloud         │  │
-│   │ (Dynamic IP) │                    │ (Static IP)          │  │
-│   │              │    PUSH FRAMES     │                      │  │
-│   │  102.89.x.x  │ ─────────────────► │  46.51.143.72        │  │
-│   │  (changes!)  │                    │  (never changes)     │  │
-│   └──────────────┘                    └──────────────────────┘  │
-│         │                                       │               │
-│         │ Camera identifies itself              │               │
-│         │ using CAMERA_TOKEN                    │               │
-│         │ (not IP address)                      ▼               │
-│                                         ┌──────────────┐        │
-│                                         │  PostgreSQL  │        │
-│                                         │  (tracks all │        │
-│                                         │   cameras)   │        │
-│                                         └──────────────┘        │
-└─────────────────────────────────────────────────────────────────┘</div>
+            <h3>Solutions for Dynamic IPs</h3>
+
+            <table>
+                <tr>
+                    <th>Solution</th>
+                    <th>How It Works</th>
+                    <th>Reliability</th>
+                </tr>
+                <tr>
+                    <td><strong>Static IP from Carrier</strong></td>
+                    <td>Carrier assigns a fixed IP that never changes</td>
+                    <td>Best - direct connection</td>
+                </tr>
+                <tr>
+                    <td><strong>DDNS</strong></td>
+                    <td>Camera updates hostname when IP changes</td>
+                    <td>Good - slight delay on IP change</td>
+                </tr>
+                <tr>
+                    <td><strong>V380 P2P Cloud</strong></td>
+                    <td>Connect via V380's relay servers</td>
+                    <td>Okay - adds latency, depends on V380</td>
+                </tr>
+                <tr>
+                    <td><strong>VPN Tunnel</strong></td>
+                    <td>Camera connects to VPN, gets internal static IP</td>
+                    <td>Good - requires setup</td>
+                </tr>
+            </table>
 
             <div class="alert alert-info">
-                <strong>Key Point:</strong> Your camera is identified by its <strong>Camera Token</strong>, not its IP. The IP can change freely.
+                <strong>Recommendation:</strong> Request a <strong>static IP from your mobile carrier</strong>. The small monthly cost (~₦5,000) saves significant headaches with connectivity.
             </div>
         </section>
 
@@ -716,30 +760,31 @@ onvif = 1</code></pre>
             <p>These are stored in Tutela's database and linked to your camera automatically.</p>
 
             <h3>Network Diagram</h3>
-            <div class="diagram">                        FARM DEPLOYMENT
+            <div class="diagram">                     FARM DEPLOYMENT (SIM-BASED)
 ┌─────────────────────────────────────────────────────────────┐
 │                                                             │
-│  ┌──────────┐         ┌──────────────┐                      │
-│  │ V380 Pro │◄───────►│ SIM Router   │                      │
-│  │ Camera   │  WiFi   │ or Hotspot   │                      │
-│  └──────────┘         └──────┬───────┘                      │
-│       │                      │                              │
-│       │ RTSP                 │ 4G LTE                       │
-│       │ (local)              │                              │
-│       ▼                      │                              │
-│  ┌──────────┐                │                              │
-│  │ Raspberry│                │                              │
-│  │ Pi Agent │────────────────┘                              │
-│  │          │     Push frames to cloud                      │
-│  └──────────┘                                               │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
+│                      ┌──────────────┐                       │
+│                      │  V380 Pro    │                       │
+│                      │  Camera      │                       │
+│                      │              │                       │
+│                      │  [SIM Card]  │                       │
+│                      │  4G LTE      │                       │
+│                      └──────┬───────┘                       │
+│                             │                               │
+│                             │ Static IP (recommended)       │
+│                             │ or P2P Cloud / DDNS           │
+│                             │                               │
+└─────────────────────────────┼───────────────────────────────┘
                               │
-                              │ HTTPS (port 443)
-                              │ POST /api/ingest
+                              │ RTSP Stream (port 554)
+                              │ rtsp://[STATIC_IP]:554/live/ch00_0
                               ▼
                     ┌──────────────────┐
                     │  TUTELA CLOUD    │
+                    │  46.51.143.72    │
+                    │                  │
+                    │  Pulls frames    │
+                    │  from camera     │
                     │                  │
                     │  • FastAPI       │
                     │  • YOLOv8        │
