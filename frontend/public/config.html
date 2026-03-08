@@ -348,6 +348,7 @@
                 <li><a href="#troubleshooting">Troubleshooting</a></li>
                 <li><a href="#farm-config">Per-Farm Configuration</a></li>
                 <li><a href="#security">Security</a></li>
+                <li><a href="#recommended-cameras">Recommended Cameras</a></li>
             </ul>
         </nav>
 
@@ -550,72 +551,65 @@ cv2.destroyAllWindows()</code></pre>
 
             <p>Since SIM-based cameras have <strong>dynamic IPs</strong> that change, we need a way for Tutela to reliably connect to your camera.</p>
 
-            <h4>Option A: Request Static IP from Carrier (Recommended)</h4>
-            <p>Contact your mobile carrier to request a <strong>static/fixed public IP</strong> for your SIM card:</p>
+            <h4>Option A: Request Static IP from MTN Business (Recommended)</h4>
+            <p>Register your SIM under <strong>MTN Business/Enterprise</strong> to get a static IP:</p>
+
+            <ol>
+                <li>Visit an <strong>MTN Enterprise/Business Center</strong> (not regular shop)</li>
+                <li>Register as a business (CAC certificate helps, but sole proprietor works)</li>
+                <li>Request an <strong>"IoT SIM with Static IP"</strong> package</li>
+                <li>Provide Tutela with your assigned static IP</li>
+            </ol>
 
             <table>
                 <tr>
                     <th>Carrier</th>
-                    <th>How to Request</th>
+                    <th>Static IP Available?</th>
                     <th>Est. Cost</th>
                 </tr>
                 <tr>
-                    <td>MTN Nigeria</td>
-                    <td>Call 180 or visit enterprise center, request "Static IP for IoT"</td>
-                    <td>₦5,000-10,000/month</td>
+                    <td>MTN Business</td>
+                    <td>Yes - IoT/M2M packages</td>
+                    <td>₦10,000-30,000/month (includes data)</td>
                 </tr>
                 <tr>
-                    <td>Airtel Nigeria</td>
-                    <td>Contact Airtel Business, request fixed IP add-on</td>
-                    <td>₦3,000-8,000/month</td>
+                    <td>Airtel Business</td>
+                    <td>Limited availability</td>
+                    <td>Contact Airtel Business directly</td>
                 </tr>
                 <tr>
-                    <td>Glo Nigeria</td>
-                    <td>Visit Gloworld, request enterprise SIM with static IP</td>
-                    <td>₦4,000-7,000/month</td>
+                    <td>Glo</td>
+                    <td>Not typically offered</td>
+                    <td>N/A</td>
                 </tr>
             </table>
 
-            <p>Once you have a static IP, provide it to Tutela during camera registration. We can then pull frames directly from your camera.</p>
-
             <div class="alert alert-info">
-                <strong>Why Static IP?</strong> With a fixed IP address, Tutela can connect to your camera anytime without needing additional hardware or apps.
+                <strong>Why Static IP?</strong> With a fixed IP, Tutela connects directly to your camera via RTSP. No apps, no cloud dependencies, no latency.
             </div>
 
-            <h4>Option B: Use V380 Cloud P2P (Fallback)</h4>
-            <p>If static IP isn't available, the V380 Pro camera has built-in P2P cloud connectivity:</p>
+            <h4>Option B: Manual IP Updates (Pilot Phase)</h4>
+            <p>For the pilot program, if static IP isn't available yet:</p>
             <ol>
-                <li>Ensure camera is registered in <strong>V380 Pro app</strong></li>
-                <li>Note your camera's <strong>Device ID</strong> (found in app settings)</li>
-                <li>Provide the Device ID to Tutela support</li>
-                <li>We can access the stream via V380's cloud relay</li>
+                <li>Check your camera's current IP in the <strong>V380 Pro app</strong> (Settings → Device Info)</li>
+                <li>Update the IP in your <strong>Tutela Dashboard</strong> camera settings</li>
+                <li>If connection fails, check if IP changed and update again</li>
             </ol>
 
             <div class="alert alert-warning">
-                <strong>Limitation:</strong> P2P adds latency (~2-5 seconds) and depends on V380's cloud servers being available.
+                <strong>Limitation:</strong> IPs typically change every few days or after power cycles. This requires manual monitoring - not ideal for production, but workable for pilots.
             </div>
 
-            <h4>Option C: VPN Tunnel (Advanced)</h4>
-            <p>For farms with multiple cameras, we can set up a VPN tunnel:</p>
-            <ol>
-                <li>Install VPN client on a local router/gateway at the farm</li>
-                <li>VPN connects to Tutela's server and gets a fixed internal IP</li>
-                <li>All cameras on that network become accessible via the VPN</li>
-            </ol>
-            <p>Contact Tutela support for VPN setup assistance.</p>
+            <h4>V380 Pro Limitations (Important)</h4>
+            <p>The V380 Pro is a <strong>consumer-grade camera</strong> with these limitations:</p>
+            <ul>
+                <li><strong>No DDNS support</strong> - Cannot auto-update hostname when IP changes</li>
+                <li><strong>No HTTP/MQTT push</strong> - Cannot push frames to a server</li>
+                <li><strong>No public API for P2P</strong> - V380 cloud is app-only, no programmatic access</li>
+                <li><strong>RTSP works</strong> - But requires knowing the IP address</li>
+            </ul>
 
-            <h4>Option D: DDNS (Dynamic DNS)</h4>
-            <p>Some V380 cameras support DDNS services:</p>
-            <ol>
-                <li>Sign up for a free DDNS service (No-IP, DuckDNS, etc.)</li>
-                <li>Configure DDNS in camera settings (if supported)</li>
-                <li>Your camera gets a hostname like <code>farm001.ddns.net</code></li>
-                <li>Tutela connects using the hostname instead of IP</li>
-            </ol>
-
-            <div class="alert alert-warning">
-                <strong>Note:</strong> Not all V380 models support DDNS. Check your camera's settings menu.
-            </div>
+            <p>For production/mass deployment, we recommend upgrading to cameras with better IoT support (see footer for recommendations).</p>
         </section>
 
         <section id="dynamic-ip">
@@ -624,44 +618,44 @@ cv2.destroyAllWindows()</code></pre>
             <h3>Why IPs Change</h3>
             <p>Mobile carriers assign <strong>dynamic public IPs</strong> that change when:</p>
             <ul>
-                <li>Camera reboots</li>
+                <li>Camera reboots or loses power</li>
                 <li>SIM reconnects to network</li>
-                <li>Carrier rotates IP pool</li>
+                <li>Carrier rotates IP pool (every few hours/days)</li>
                 <li>Network congestion triggers reassignment</li>
             </ul>
 
-            <h3>Solutions for Dynamic IPs</h3>
+            <h3>Solutions for V380 Pro</h3>
 
             <table>
                 <tr>
                     <th>Solution</th>
-                    <th>How It Works</th>
-                    <th>Reliability</th>
+                    <th>Works with V380 Pro?</th>
+                    <th>Recommendation</th>
                 </tr>
                 <tr>
-                    <td><strong>Static IP from Carrier</strong></td>
-                    <td>Carrier assigns a fixed IP that never changes</td>
-                    <td>Best - direct connection</td>
+                    <td><strong>Static IP from MTN Business</strong></td>
+                    <td>Yes</td>
+                    <td>Best option - direct RTSP connection</td>
+                </tr>
+                <tr>
+                    <td><strong>Manual IP Updates</strong></td>
+                    <td>Yes</td>
+                    <td>Workable for pilot phase</td>
                 </tr>
                 <tr>
                     <td><strong>DDNS</strong></td>
-                    <td>Camera updates hostname when IP changes</td>
-                    <td>Good - slight delay on IP change</td>
+                    <td>No - V380 Pro doesn't support DDNS</td>
+                    <td>Not available</td>
                 </tr>
                 <tr>
                     <td><strong>V380 P2P Cloud</strong></td>
-                    <td>Connect via V380's relay servers</td>
-                    <td>Okay - adds latency, depends on V380</td>
-                </tr>
-                <tr>
-                    <td><strong>VPN Tunnel</strong></td>
-                    <td>Camera connects to VPN, gets internal static IP</td>
-                    <td>Good - requires setup</td>
+                    <td>No public API</td>
+                    <td>App-only, can't integrate</td>
                 </tr>
             </table>
 
             <div class="alert alert-info">
-                <strong>Recommendation:</strong> Request a <strong>static IP from your mobile carrier</strong>. The small monthly cost (~₦5,000) saves significant headaches with connectivity.
+                <strong>Recommendation:</strong> For pilot phase, use manual IP updates. For production, get a <strong>static IP from MTN Business</strong> or upgrade to production-ready cameras (see footer).
             </div>
         </section>
 
@@ -799,7 +793,6 @@ onvif = 1</code></pre>
                 <li><strong>Keep Camera Token secret</strong> - treat it like a password</li>
                 <li><strong>Use HTTPS</strong> for all API communications (Tutela enforces this)</li>
                 <li><strong>Update camera firmware</strong> when available</li>
-                <li><strong>Secure the Pi agent</strong> - change default SSH password</li>
             </ol>
         </section>
 
@@ -814,12 +807,146 @@ onvif = 1</code></pre>
             <p>Include your <strong>Farm ID</strong> and <strong>Camera ID</strong> when contacting support.</p>
         </section>
 
+        <section id="recommended-cameras">
+            <h2>Recommended Cameras for Production</h2>
+            <p>The V380 Pro works for pilots, but for mass deployment we recommend <strong>solar-powered 4G cameras</strong> with proper IoT support:</p>
+
+            <div class="alert alert-info" style="margin-bottom: 20px;">
+                <strong>Why upgrade?</strong> These cameras have built-in DDNS, ONVIF/RTSP support, and work reliably with dynamic IPs - no static IP or manual updates needed.
+            </div>
+
+            <h3>Hikvision Solar 4G (Best for Production)</h3>
+            <table>
+                <tr>
+                    <th>Model</th>
+                    <th>Specs</th>
+                    <th>Key Features</th>
+                    <th>Price</th>
+                </tr>
+                <tr>
+                    <td><strong>DS-2XS6A87G1-L/C32S80</strong></td>
+                    <td>4K 8MP, 80W Solar Panel, 30Ah Battery</td>
+                    <td>DDNS, RTSP, ONVIF, HTTP API, ColorVu Night Vision</td>
+                    <td>~$400-600</td>
+                </tr>
+                <tr>
+                    <td><strong>DS-2XS6A87G1-LS/C36S80</strong></td>
+                    <td>4K 8MP, 100W Solar Panel, 36Ah Battery</td>
+                    <td>Same as above + longer battery life</td>
+                    <td>~$500-700</td>
+                </tr>
+            </table>
+            <p><strong>Protocols:</strong> TCP/IP, HTTP, HTTPS, DDNS, RTSP, ONVIF (Profile S/G/T), ISAPI, SDK</p>
+            <p>
+                <a href="https://www.hikvision.com/en/products/IP-Products/Network-Cameras/solar-powered-security-camera-setup/ds-2xs6a87g1-l-c32s80-no-battery-/" target="_blank">Hikvision Official Product Page</a> ·
+                <a href="https://www.surveillance-video.com/camera-ds-2xs6a87g1-l-c32s80-2-8mm-nb.html" target="_blank">Surveillance-Video.com</a>
+            </p>
+
+            <h3>Reolink Go Series (Budget Option)</h3>
+            <div class="alert alert-warning" style="margin-bottom: 16px;">
+                <strong>Note:</strong> Reolink battery/solar cameras do <strong>NOT support RTSP/ONVIF</strong> when used standalone. Only works through Reolink app/cloud or with Reolink Home Hub.
+            </div>
+            <table>
+                <tr>
+                    <th>Model</th>
+                    <th>Specs</th>
+                    <th>Limitation</th>
+                    <th>Price</th>
+                </tr>
+                <tr>
+                    <td><strong>Go PT Plus</strong></td>
+                    <td>2K 5MP, 4G LTE, Pan/Tilt, Solar Panel</td>
+                    <td>No RTSP - Reolink cloud only</td>
+                    <td>~$180-250</td>
+                </tr>
+                <tr>
+                    <td><strong>Go PT Ultra</strong></td>
+                    <td>4K 8MP, 4G LTE, Pan/Tilt, Solar Panel</td>
+                    <td>No RTSP - Reolink cloud only</td>
+                    <td>~$250-350</td>
+                </tr>
+            </table>
+            <p>
+                <a href="https://reolink.com/product/reolink-go-pt-plus/" target="_blank">Reolink Go PT Plus</a> ·
+                <a href="https://reolink.com/product/reolink-go-pt-ultra/" target="_blank">Reolink Go PT Ultra</a> ·
+                <a href="https://support.reolink.com/hc/en-us/articles/360004441753-Can-Reolink-Battery-Powered-Cameras-Work-with-3rd-Party-Software/" target="_blank">Reolink 3rd Party Integration Guide</a>
+            </p>
+
+            <h3>Comparison Summary</h3>
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>V380 Pro (Current)</th>
+                    <th>Hikvision Solar 4G</th>
+                    <th>Reolink Go Series</th>
+                </tr>
+                <tr>
+                    <td>Solar Powered</td>
+                    <td>No (requires external)</td>
+                    <td>Yes (built-in)</td>
+                    <td>Yes (optional panel)</td>
+                </tr>
+                <tr>
+                    <td>4G LTE</td>
+                    <td>Yes</td>
+                    <td>Yes</td>
+                    <td>Yes</td>
+                </tr>
+                <tr>
+                    <td>RTSP Support</td>
+                    <td>Yes (after config)</td>
+                    <td>Yes (native)</td>
+                    <td>No (standalone)</td>
+                </tr>
+                <tr>
+                    <td>DDNS Support</td>
+                    <td>No</td>
+                    <td>Yes</td>
+                    <td>No</td>
+                </tr>
+                <tr>
+                    <td>ONVIF Support</td>
+                    <td>Limited</td>
+                    <td>Yes (Profile S/G/T)</td>
+                    <td>No (standalone)</td>
+                </tr>
+                <tr>
+                    <td>HTTP API</td>
+                    <td>No</td>
+                    <td>Yes (ISAPI)</td>
+                    <td>Cloud only</td>
+                </tr>
+                <tr>
+                    <td>Price</td>
+                    <td>~$30</td>
+                    <td>~$400-700</td>
+                    <td>~$180-350</td>
+                </tr>
+                <tr>
+                    <td>Best For</td>
+                    <td>Pilot/Testing</td>
+                    <td>Production</td>
+                    <td>Not recommended</td>
+                </tr>
+            </table>
+
+            <div class="alert alert-success">
+                <strong>Recommendation:</strong> For production deployment at scale, use <strong>Hikvision DS-2XS6A87G1 series</strong>. It has native DDNS + RTSP + ONVIF, works with dynamic IPs automatically, and is truly solar-powered for remote farms.
+            </div>
+        </section>
+
         <footer>
             <p>Tutela — AI-Powered Livestock Health Monitoring</p>
-            <p style="margin-top: 8px; font-size: 0.85rem;">
+            <p style="margin-top: 12px; font-size: 0.85rem;">
                 <a href="/flow.html" style="color: #666;">Technical Architecture</a> ·
                 <a href="/video-analysis" style="color: #666;">Live Demo</a> ·
                 <a href="/" style="color: #666;">Home</a>
+            </p>
+            <p style="margin-top: 16px; font-size: 0.8rem; color: #888;">
+                Camera Links:
+                <a href="https://www.hikvision.com/en/products/IP-Products/Network-Cameras/solar-powered-security-camera-setup/ds-2xs6a87g1-l-c32s80-no-battery-/" target="_blank" style="color: #888;">Hikvision Solar 4G</a> ·
+                <a href="https://reolink.com/product/reolink-go-pt-plus/" target="_blank" style="color: #888;">Reolink Go PT Plus</a> ·
+                <a href="https://reolink.com/product/reolink-go-pt-ultra/" target="_blank" style="color: #888;">Reolink Go PT Ultra</a>
             </p>
         </footer>
     </div>
