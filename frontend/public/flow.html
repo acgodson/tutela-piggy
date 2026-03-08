@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutela - Technical Architecture</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #fafafa;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border: 2px solid #1a1a1a;
+            background: #fff;
+            color: #1a1a1a;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        .btn-primary {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background: #333;
+        }
+
+        .architecture-wrapper {
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            padding: 40px;
+            margin-bottom: 40px;
+        }
+
+        #architecture-diagram {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .section {
+            margin-bottom: 40px;
+        }
+
+        .section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .tech-stack {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .tech-card {
+            border: 1px solid #e0e0e0;
+            padding: 20px;
+            background: #fff;
+        }
+
+        .tech-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #1a1a1a;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .tech-card ul {
+            list-style: none;
+        }
+
+        .tech-card li {
+            padding: 4px 0;
+            font-size: 0.95rem;
+            color: #444;
+        }
+
+        .tech-card li::before {
+            content: "—";
+            margin-right: 8px;
+            color: #999;
+        }
+
+        .flow-steps {
+            counter-reset: step;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            padding: 20px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .flow-step:last-child {
+            border-bottom: none;
+        }
+
+        .step-number {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            border: 2px solid #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .step-content h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .step-content p {
+            color: #555;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 2px solid #e0e0e0;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media print {
+            .actions {
+                display: none;
+            }
+            body {
+                background: #fff;
+            }
+            .architecture-wrapper {
+                border: 1px solid #ccc;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            .architecture-wrapper {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Tutela</h1>
+            <p class="subtitle">AI-Powered Livestock Health Monitoring System — Technical Architecture</p>
+            <div class="actions">
+                <button class="btn btn-primary" onclick="downloadImage()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                        <polyline points="7 10 12 15 17 10"/>
+                        <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    Download Architecture (PNG)
+                </button>
+                <button class="btn" onclick="downloadPDF()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                    </svg>
+                    Download Summary (PDF)
+                </button>
+                <button class="btn" onclick="downloadText()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                    </svg>
+                    Download Summary (TXT)
+                </button>
+            </div>
+        </header>
+
+        <div class="architecture-wrapper">
+            <svg id="architecture-diagram" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+                <!-- Background -->
+                <rect width="1000" height="700" fill="#ffffff"/>
+
+                <!-- Title -->
+                <text x="500" y="35" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="20" font-weight="600" fill="#1a1a1a">System Architecture Overview</text>
+
+                <!-- Definitions for arrows -->
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#1a1a1a"/>
+                    </marker>
+                    <marker id="arrowhead-gray" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#666"/>
+                    </marker>
+                </defs>
+
+                <!-- LAYER 1: DATA CAPTURE -->
+                <text x="50" y="85" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" fill="#666" letter-spacing="1">DATA CAPTURE LAYER</text>
+                <line x1="50" y1="95" x2="950" y2="95" stroke="#e0e0e0" stroke-width="1"/>
+
+                <!-- Camera Box -->
+                <rect x="80" y="115" width="180" height="90" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+                <text x="170" y="145" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#1a1a1a">V380 Pro Camera</text>
+                <text x="170" y="165" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#666">RTSP Stream</text>
+                <text x="170" y="183" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#888">1080p @ 25fps</text>
+
+                <!-- Web Upload Box -->
+                <rect x="300" y="115" width="180" height="90" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+                <text x="390" y="145" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#1a1a1a">Video Upload</text>
+                <text x="390" y="165" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#666">MP4 / WebM Files</text>
+                <text x="390" y="183" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#888">Batch Processing</text>
+
+                <!-- Live Camera Box -->
+                <rect x="520" y="115" width="180" height="90" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+                <text x="610" y="145" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#1a1a1a">Browser Camera</text>
+                <text x="610" y="165" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#666">WebRTC Stream</text>
+                <text x="610" y="183" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#888">Real-time Analysis</text>
+
+                <!-- Arrow from cameras to frontend -->
+                <path d="M 170 205 L 170 245 L 400 245 L 400 275" fill="none" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+                <path d="M 390 205 L 390 245 L 400 245" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+                <path d="M 610 205 L 610 245 L 400 245" fill="none" stroke="#1a1a1a" stroke-width="1.5"/>
+                <text x="420" y="240" font-family="Segoe UI, sans-serif" font-size="9" fill="#666">Video Frames</text>
+
+                <!-- LAYER 2: FRONTEND -->
+                <text x="50" y="270" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" fill="#666" letter-spacing="1">APPLICATION LAYER</text>
+                <line x1="50" y1="280" x2="950" y2="280" stroke="#e0e0e0" stroke-width="1"/>
+
+                <!-- Frontend Box -->
+                <rect x="280" y="295" width="240" height="100" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+                <text x="400" y="325" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#1a1a1a">Web App</text>
+                <text x="400" y="345" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#666">React 19 + TypeScript</text>
+                <text x="400" y="362" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#888">Frame Extraction</text>
+                <text x="400" y="378" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#888">Canvas Rendering</text>
+
+                <!-- API Routes Box -->
+                <rect x="560" y="295" width="180" height="100" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+                <text x="650" y="325" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#1a1a1a">API Routes</text>
+                <text x="650" y="345" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#666">/api/detect</text>
+                <text x="650" y="362" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#888">/api/video/*</text>
+                <text x="650" y="378" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#888">/api/alerts</text>
+
+                <!-- Arrow between frontend components -->
+                <line x1="520" y1="345" x2="555" y2="345" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+                <!-- Arrow to backend -->
+                <path d="M 650 395 L 650 440 L 400 440 L 400 475" fill="none" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+                <text x="530" y="455" font-family="Segoe UI, sans-serif" font-size="9" fill="#666">Base64 Image + Expected Count</text>
+
+                <!-- LAYER 3: BACKEND / AI -->
+                <text x="50" y="465" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" fill="#666" letter-spacing="1">AI PROCESSING LAYER</text>
+                <line x1="50" y1="475" x2="950" y2="475" stroke="#e0e0e0" stroke-width="1"/>
+
+                <!-- FastAPI Backend -->
+                <rect x="280" y="490" width="240" height="110" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+                <text x="400" y="520" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#1a1a1a">FastAPI Backend</text>
+                <text x="400" y="540" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#666">Python 3.10 + Uvicorn</text>
+                <line x1="300" y1="555" x2="500" y2="555" stroke="#e0e0e0" stroke-width="1"/>
+                <text x="400" y="575" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#1a1a1a">YOLOv8s Detection</text>
+                <text x="400" y="592" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#888">ByteTrack Multi-Object Tracking</text>
+
+                <!-- Gemini AI Box -->
+                <rect x="560" y="490" width="180" height="110" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+                <text x="650" y="520" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="14" font-weight="600" fill="#1a1a1a">Gemini 3.0 Flash</text>
+                <text x="650" y="540" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#666">Google AI API</text>
+                <line x1="580" y1="555" x2="720" y2="555" stroke="#e0e0e0" stroke-width="1"/>
+                <text x="650" y="575" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" fill="#1a1a1a">Pig Validation</text>
+                <text x="650" y="592" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#888">Number Identification</text>
+
+                <!-- Arrow between backend and gemini -->
+                <line x1="520" y1="545" x2="555" y2="545" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+                <text x="538" y="538" font-family="Segoe UI, sans-serif" font-size="8" fill="#666">Validate</text>
+
+                <!-- Model Box -->
+                <rect x="80" y="510" width="160" height="70" fill="#fff" stroke="#666" stroke-width="1.5" stroke-dasharray="4,2"/>
+                <text x="160" y="540" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" fill="#1a1a1a">YOLOv8s Model</text>
+                <text x="160" y="558" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="10" fill="#666">Fine-tuned (23MB)</text>
+                <text x="160" y="572" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9" fill="#888">Pig Segmentation</text>
+
+                <!-- Arrow from model to backend -->
+                <line x1="240" y1="545" x2="275" y2="545" stroke="#666" stroke-width="1.5" stroke-dasharray="4,2" marker-end="url(#arrowhead-gray)"/>
+
+                <!-- Arrow to data layer -->
+                <path d="M 400 600 L 400 640" fill="none" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+                <text x="415" y="625" font-family="Segoe UI, sans-serif" font-size="9" fill="#666">Detection Results + Alerts</text>
+
+                <!-- LAYER 4: DATA PERSISTENCE -->
+                <text x="50" y="645" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" fill="#666" letter-spacing="1">DATA PERSISTENCE LAYER</text>
+                <line x1="50" y1="655" x2="950" y2="655" stroke="#e0e0e0" stroke-width="1"/>
+
+                <!-- PostgreSQL Box - Centered -->
+                <rect x="300" y="665" width="200" height="30" fill="#fff" stroke="#1a1a1a" stroke-width="2"/>
+                <text x="400" y="686" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="12" font-weight="600" fill="#1a1a1a">Neon PostgreSQL</text>
+
+                <!-- Arrow to database -->
+                <line x1="400" y1="640" x2="400" y2="660" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+
+                <!-- Database label -->
+                <text x="400" y="707" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="9" fill="#888">Detections, Tracking, Alerts, Config</text>
+
+                <!-- Side annotations - Output types -->
+                <rect x="780" y="295" width="170" height="130" fill="#fafafa" stroke="#e0e0e0" stroke-width="1"/>
+                <text x="865" y="318" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" fill="#1a1a1a">OUTPUTS</text>
+                <line x1="795" y1="328" x2="935" y2="328" stroke="#e0e0e0" stroke-width="1"/>
+                <text x="800" y="350" font-family="Segoe UI, sans-serif" font-size="10" fill="#444">• Bounding Boxes</text>
+                <text x="800" y="368" font-family="Segoe UI, sans-serif" font-size="10" fill="#444">• Pig Count</text>
+                <text x="800" y="386" font-family="Segoe UI, sans-serif" font-size="10" fill="#444">• Track IDs</text>
+                <text x="800" y="404" font-family="Segoe UI, sans-serif" font-size="10" fill="#444">• Pig Numbers (1-30)</text>
+                <text x="800" y="422" font-family="Segoe UI, sans-serif" font-size="10" fill="#444">• Health Alerts</text>
+
+                <!-- Side annotations - Alert types -->
+                <rect x="780" y="450" width="170" height="100" fill="#fafafa" stroke="#e0e0e0" stroke-width="1"/>
+                <text x="865" y="473" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" fill="#1a1a1a">ALERT TYPES</text>
+                <line x1="795" y1="483" x2="935" y2="483" stroke="#e0e0e0" stroke-width="1"/>
+                <text x="800" y="505" font-family="Segoe UI, sans-serif" font-size="10" fill="#444">• Count Mismatch [HIGH]</text>
+                <text x="800" y="523" font-family="Segoe UI, sans-serif" font-size="10" fill="#444">• Inactivity [MEDIUM]</text>
+                <text x="800" y="541" font-family="Segoe UI, sans-serif" font-size="10" fill="#888">• Thermal Anomaly*</text>
+
+                <!-- Connection line to outputs -->
+                <line x1="740" y1="345" x2="775" y2="345" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="4,2"/>
+                <line x1="740" y1="545" x2="775" y2="500" stroke="#e0e0e0" stroke-width="1" stroke-dasharray="4,2"/>
+
+                <!-- Legend -->
+                <rect x="780" y="115" width="170" height="70" fill="#fafafa" stroke="#e0e0e0" stroke-width="1"/>
+                <text x="865" y="138" text-anchor="middle" font-family="Segoe UI, sans-serif" font-size="11" font-weight="600" fill="#1a1a1a">LEGEND</text>
+                <line x1="795" y1="148" x2="935" y2="148" stroke="#e0e0e0" stroke-width="1"/>
+                <line x1="800" y1="165" x2="840" y2="165" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#arrowhead)"/>
+                <text x="850" y="168" font-family="Segoe UI, sans-serif" font-size="9" fill="#666">Data Flow</text>
+                <line x1="800" y1="180" x2="840" y2="180" stroke="#666" stroke-width="1.5" stroke-dasharray="4,2"/>
+                <text x="850" y="183" font-family="Segoe UI, sans-serif" font-size="9" fill="#666">Internal Ref</text>
+            </svg>
+        </div>
+
+        <section class="section">
+            <h2>Technology Stack</h2>
+            <div class="tech-stack">
+                <div class="tech-card">
+                    <h3>Frontend</h3>
+                    <ul>
+                        <li>React 19 (TypeScript)</li>
+                        <li>Tailwind CSS 4</li>
+                        <li>Drizzle ORM</li>
+                        <li>PWA Ready</li>
+                    </ul>
+                </div>
+                <div class="tech-card">
+                    <h3>Backend</h3>
+                    <ul>
+                        <li>FastAPI (Python 3.10)</li>
+                        <li>YOLOv8s (Ultralytics)</li>
+                        <li>ByteTrack</li>
+                        <li>OpenCV + NumPy</li>
+                    </ul>
+                </div>
+                <div class="tech-card">
+                    <h3>AI Services</h3>
+                    <ul>
+                        <li>Google Gemini 3.0 Flash</li>
+                        <li>Custom YOLOv8 Model (23MB)</li>
+                        <li>Instance Segmentation</li>
+                        <li>Multi-Object Tracking</li>
+                    </ul>
+                </div>
+                <div class="tech-card">
+                    <h3>Infrastructure</h3>
+                    <ul>
+                        <li>Vercel (Frontend)</li>
+                        <li>AWS EC2 (Backend)</li>
+                        <li>Neon PostgreSQL</li>
+                        <li>Docker Containers</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Data Flow</h2>
+            <div class="flow-steps">
+                <div class="flow-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Video Capture</h4>
+                        <p>V380 Pro IP camera streams RTSP video, or user uploads video file / uses browser camera. Frames extracted at configurable intervals.</p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Frame Processing</h4>
+                        <p>Web app extracts frames using Canvas API, converts to Base64, and sends to API route with expected pig count.</p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>Object Detection</h4>
+                        <p>FastAPI backend runs YOLOv8s model for pig detection and instance segmentation. ByteTrack assigns persistent IDs across frames.</p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>AI Validation</h4>
+                        <p>Gemini 3.0 Flash validates detections (confirming pigs vs. false positives) and reads painted identification numbers (1-30).</p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h4>Alert Generation</h4>
+                        <p>System compares detected count vs. expected count, monitors movement patterns, and generates alerts for anomalies.</p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">6</div>
+                    <div class="step-content">
+                        <h4>Data Persistence</h4>
+                        <p>All detections, tracking data, and alerts stored in PostgreSQL for analytics, historical review, and compliance reporting.</p>
+                    </div>
+                </div>
+                <div class="flow-step">
+                    <div class="step-number">7</div>
+                    <div class="step-content">
+                        <h4>Visualization</h4>
+                        <p>Results rendered in real-time with bounding boxes, pig numbers, and alert indicators. Dashboard provides historical analytics and reports.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>Tutela — AI-Powered Livestock Health Monitoring</p>
+        </footer>
+    </div>
+
+    <script>
+        // Download architecture as PNG
+        async function downloadImage() {
+            const svg = document.getElementById('architecture-diagram');
+            const svgData = new XMLSerializer().serializeToString(svg);
+
+            // Create canvas with higher resolution
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            const scale = 2; // 2x resolution for crisp output
+
+            canvas.width = 1000 * scale;
+            canvas.height = 700 * scale;
+
+            // Fill white background
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Create image from SVG
+            const img = new Image();
+            const svgBlob = new Blob([svgData], { type: 'image/svg+xml;charset=utf-8' });
+            const url = URL.createObjectURL(svgBlob);
+
+            img.onload = function() {
+                ctx.scale(scale, scale);
+                ctx.drawImage(img, 0, 0);
+                URL.revokeObjectURL(url);
+
+                // Download
+                const link = document.createElement('a');
+                link.download = 'tutela-architecture.png';
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            };
+
+            img.src = url;
+        }
+
+        // Download summary as PDF (using browser print)
+        function downloadPDF() {
+            window.print();
+        }
+
+        // Download summary as plain text
+        function downloadText() {
+            const summary = `TUTELA - TECHNICAL ARCHITECTURE SUMMARY
+=========================================
+
+AI-Powered Livestock Health Monitoring System
+
+-----------------------------------------
+OVERVIEW
+-----------------------------------------
+
+Tutela is an AI-powered livestock health monitoring system designed for pig farms. It detects early signs of disease and health anomalies in real-time using computer vision and AI validation.
+
+Problem Addressed:
+• Livestock disease costs African farmers billions annually
+• Nigeria alone: $2.5 billion in annual losses
+• Outbreaks can eliminate 30-60% of a herd within days
+• Farmers often miss sick animals until outbreaks spread
+
+Solution:
+• Real-time AI-powered pig detection and counting
+• Individual pig tracking with persistent IDs
+• Automated health alert generation
+• Centralized data logging for analytics and compliance
+
+-----------------------------------------
+SYSTEM ARCHITECTURE
+-----------------------------------------
+
+LAYER 1: DATA CAPTURE
+• V380 Pro IP Camera (RTSP Stream, 1080p @ 25fps)
+• Video File Upload (MP4/WebM batch processing)
+• Browser Camera (WebRTC real-time stream)
+
+LAYER 2: APPLICATION
+• React Web App (TypeScript, PWA-ready)
+• API Routes (/api/detect, /api/video/*, /api/alerts)
+• Canvas-based frame extraction
+• Real-time result rendering
+
+LAYER 3: AI PROCESSING
+• FastAPI Backend (Python 3.10, Uvicorn)
+• YOLOv8s Custom Model (23MB, fine-tuned for pigs)
+• ByteTrack Multi-Object Tracking
+• Google 3.0 Flash (validation + number reading)
+
+LAYER 4: DATA PERSISTENCE
+• Neon PostgreSQL (detections, tracking, alerts, configuration)
+
+-----------------------------------------
+DATA FLOW
+-----------------------------------------
+
+1. VIDEO CAPTURE
+   V380 Pro camera streams RTSP video, or user uploads
+   video file / uses browser camera. Frames extracted
+   at configurable intervals.
+
+2. FRAME PROCESSING
+   Web app extracts frames using Canvas API, converts
+   to Base64, sends to API with expected pig count.
+
+3. OBJECT DETECTION
+   FastAPI backend runs YOLOv8s for pig detection and
+   instance segmentation. ByteTrack assigns persistent IDs.
+
+4. AI VALIDATION
+   Gemini 3.0 Flash validates detections (confirming pigs
+   vs. false positives) and reads painted numbers (1-30).
+
+5. ALERT GENERATION
+   System compares detected vs. expected count, monitors
+   movement patterns, generates alerts for anomalies.
+
+6. DATA PERSISTENCE
+   All detections, tracking data, and alerts stored in
+   PostgreSQL for analytics and compliance reporting.
+
+7. VISUALIZATION
+   Results rendered with bounding boxes, pig numbers, and
+   alert indicators. Dashboard provides historical analytics.
+
+-----------------------------------------
+TECHNOLOGY STACK
+-----------------------------------------
+
+FRONTEND:
+• React 19 (TypeScript)
+• Tailwind CSS 4
+• Drizzle ORM
+• PWA Ready (mobile/offline support)
+
+BACKEND:
+• FastAPI (Python 3.10)
+• YOLOv8s (Ultralytics)
+• ByteTrack
+• OpenCV + NumPy
+
+AI SERVICES:
+• Google 3.0 Flash
+• Custom YOLOv8 Model (23MB)
+• Instance Segmentation
+• Multi-Object Tracking
+
+INFRASTRUCTURE:
+• Vercel (Frontend hosting)
+• AWS EC2 (Backend hosting)
+• Neon PostgreSQL (Database)
+• Docker Containers
+
+-----------------------------------------
+ALERT TYPES
+-----------------------------------------
+
+• COUNT MISMATCH [HIGH SEVERITY]
+  Triggered when detected pig count differs from expected.
+  Indicates missing, escaped, or deceased animals.
+
+• INACTIVITY ALERT [MEDIUM SEVERITY]
+  Triggered when pig movement < 50px over 15 seconds.
+  May indicate illness, injury, or distress.
+
+• THERMAL ANOMALY [REQUIRES THERMAL CAMERA]
+  Triggered when body temperature outside 37-38.5°C range.
+  Framework implemented, pending hardware.
+
+-----------------------------------------
+OUTPUTS
+-----------------------------------------
+
+• Bounding boxes with confidence scores
+• Real-time pig count
+• Persistent track IDs across frames
+• Individual pig numbers (1-30)
+• Health alerts with severity levels
+• Historical analytics and reports
+
+-----------------------------------------
+HARDWARE REQUIREMENTS
+-----------------------------------------
+
+Camera: V380 Pro IP Camera
+• Resolution: 1080p Full HD
+• Protocol: RTSP (port 554)
+• Connectivity: Wi-Fi 2.4GHz / 4G SIM
+• Cost: ~$30 USD
+
+Total BOM: ~$56 USD per pen (+ ~$10-15/month data)
+
+-----------------------------------------
+DEPLOYMENT
+-----------------------------------------
+
+Frontend: https://tutela-piggy.vercel.app
+Backend: AWS EC2 (Docker containerized)
+Database: Neon PostgreSQL (serverless)
+
+-----------------------------------------
+
+Tutela - Protecting Livestock, Empowering Farmers
+
+© 2025 Tutela Team`;
+
+            // Create and download text file
+            const blob = new Blob([summary], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.download = 'tutela-technical-summary.txt';
+            link.href = URL.createObjectURL(blob);
+            link.click();
+            URL.revokeObjectURL(link.href);
+        }
+    </script>
+</body>
+</html>
