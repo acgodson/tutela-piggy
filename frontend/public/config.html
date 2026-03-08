@@ -588,16 +588,67 @@ cv2.destroyAllWindows()</code></pre>
                 <strong>Why Static IP?</strong> With a fixed IP, Tutela connects directly to your camera via RTSP. No apps, no cloud dependencies, no latency.
             </div>
 
-            <h4>Option B: Manual IP Updates (Pilot Phase)</h4>
-            <p>For the pilot program, if static IP isn't available yet:</p>
+            <h4>Option B: Manual IP Updates via Dashboard (Pilot Phase)</h4>
+            <p>For the pilot program, if static IP isn't available, Tutela will alert you when connection fails and prompt you to update the IP:</p>
+
+            <div class="diagram">     AUTOMATIC FALLBACK FLOW
+
+┌─────────────────────────────────────────────────────────────────────┐
+│                    TUTELA SERVER                                    │
+│                                                                     │
+│    Every 5 minutes:                                                 │
+│    ┌──────────────────────┐                                         │
+│    │ Try RTSP connection  │                                         │
+│    │ to last known IP     │                                         │
+│    └──────────┬───────────┘                                         │
+│               │                                                     │
+│       ┌───────┴───────┐                                             │
+│       │               │                                             │
+│   ┌───▼───┐       ┌───▼───┐                                         │
+│   │Success│       │Failed │                                         │
+│   └───┬───┘       └───┬───┘                                         │
+│       │               │                                             │
+│       ▼               ▼                                             │
+│   Continue        Send alert to farmer:                             │
+│   analysis        "Camera offline - IP may have changed"            │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                    FARMER ACTION                                    │
+│                                                                     │
+│    1. Open V380 Pro app on phone                                    │
+│       └─► Settings → Device Info → IP Address                       │
+│           Example: 102.89.45.123                                    │
+│                                                                     │
+│    2. Open Tutela Dashboard                                         │
+│       └─► Settings → Cameras → Edit → Update IP                     │
+│                                                                     │
+│    3. Connection restored automatically                             │
+│                                                                     │
+└─────────────────────────────────────────────────────────────────────┘</div>
+
+            <h5>Where to Find IP in V380 Pro App:</h5>
             <ol>
-                <li>Check your camera's current IP in the <strong>V380 Pro app</strong> (Settings → Device Info)</li>
-                <li>Update the IP in your <strong>Tutela Dashboard</strong> camera settings</li>
-                <li>If connection fails, check if IP changed and update again</li>
+                <li>Open <strong>V380 Pro</strong> app</li>
+                <li>Tap your camera to view live feed</li>
+                <li>Tap <strong>Settings</strong> (gear icon)</li>
+                <li>Tap <strong>Device Info</strong> or <strong>Network Info</strong></li>
+                <li>Copy the <strong>IP Address</strong> (e.g., <code>102.89.45.123</code>)</li>
+            </ol>
+
+            <h5>Update IP in Tutela Dashboard:</h5>
+            <ol>
+                <li>Go to <a href="https://tutela-piggy.vercel.app/settings" target="_blank">Tutela Dashboard → Settings</a></li>
+                <li>Click <strong>Cameras</strong></li>
+                <li>Find your camera and click <strong>Edit</strong></li>
+                <li>Paste the new IP address</li>
+                <li>Click <strong>Save</strong> - connection will retry immediately</li>
             </ol>
 
             <div class="alert alert-warning">
-                <strong>Limitation:</strong> IPs typically change every few days or after power cycles. This requires manual monitoring - not ideal for production, but workable for pilots.
+                <strong>How often does IP change?</strong> Typically every few days, or after camera power cycles. You'll get an alert when it happens - just update the IP and you're back online in seconds.
             </div>
 
             <h4>V380 Pro Limitations (Important)</h4>
@@ -1013,7 +1064,7 @@ Resolution: 1080p (2MP)</code></pre>
                 </tr>
                 <tr>
                     <td>Solar Powered</td>
-                    <td>No</td>
+                    <td>Yes</td>
                     <td>Yes (8-15W panel)</td>
                     <td>Yes (80W panel)</td>
                 </tr>
