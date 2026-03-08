@@ -809,44 +809,170 @@ onvif = 1</code></pre>
 
         <section id="recommended-cameras">
             <h2>Recommended Cameras for Production</h2>
-            <p>The V380 Pro works for pilots, but for mass deployment we recommend <strong>solar-powered 4G cameras</strong> with proper IoT support (RTSP + DDNS):</p>
+            <p>The V380 Pro works for pilots, but for mass deployment we recommend <strong>ENSTER Solar 4G cameras</strong> with FTP push capability:</p>
 
-            <div class="alert alert-info" style="margin-bottom: 20px;">
-                <strong>Why upgrade?</strong> Cameras with built-in DDNS automatically update their hostname when IP changes - no static IP needed, no manual updates. Tutela connects using a hostname like <code>farm001.hikvision.com</code> that always works.
+            <div class="alert alert-success" style="margin-bottom: 20px;">
+                <strong>Hybrid Model:</strong> Camera pushes snapshots every 5 minutes for AI analysis (low data cost), while farmers can still watch live video anytime via the app.
             </div>
 
-            <h3>Budget Option: Chinese OEM Solar 4G Cameras (Recommended)</h3>
-            <p>These are affordable cameras from Alibaba/AliExpress manufacturers with proper RTSP + ONVIF + DDNS support:</p>
+            <h3>How It Works: FTP Analysis + Live Viewing</h3>
+            <div class="diagram">     ENSTER CAMERA - DUAL MODE OPERATION
 
+┌─────────────────────────────────────────────────────────────────────┐
+│                          ENSTER 4G Camera                           │
+│                         (Dynamic IP - No problem!)                  │
+└───────────────────────────────┬─────────────────────────────────────┘
+                                │
+            ┌───────────────────┴───────────────────┐
+            │                                       │
+            ▼                                       ▼
+    ┌───────────────────┐                 ┌───────────────────┐
+    │  MODE 1: FTP      │                 │  MODE 2: LIVE     │
+    │  (Automatic)      │                 │  (On-Demand)      │
+    └─────────┬─────────┘                 └─────────┬─────────┘
+              │                                     │
+    Every 5 minutes:                      When farmer opens app:
+    • Capture snapshot                    • RTSP/P2P stream
+    • Upload via FTP                      • Real-time video
+    • ~100KB per image                    • Uses more data
+              │                                     │
+              ▼                                     ▼
+    ┌───────────────────┐                 ┌───────────────────┐
+    │  Tutela Server    │                 │  Farmer's Phone   │
+    │  (Static IP)      │                 │  via Cloud P2P    │
+    │                   │                 │                   │
+    │  • Receives image │                 │  • Watch live     │
+    │  • YOLOv8 counts  │                 │  • Check on pigs  │
+    │  • Alerts farmer  │                 │  • No Tutela cost │
+    └───────────────────┘                 └───────────────────┘
+
+    5-min delay, low cost                 Real-time, user pays</div>
+
+            <h3>Data Cost Comparison</h3>
             <table>
                 <tr>
-                    <th>Brand/Type</th>
-                    <th>Specs</th>
-                    <th>Key Features</th>
-                    <th>Est. Price</th>
+                    <th>Mode</th>
+                    <th>Data per Image</th>
+                    <th>Frequency</th>
+                    <th>Daily Data</th>
+                    <th>Monthly Data</th>
+                    <th>Est. Cost (NGN)</th>
                 </tr>
                 <tr>
-                    <td><strong>ENSTER Solar 4G</strong></td>
-                    <td>2MP-4MP, 8-15W Solar, 20000mAh Battery</td>
-                    <td>RTSP, ONVIF, DDNS, FTP, Two-way Audio</td>
-                    <td>$60-120</td>
+                    <td><strong>FTP Every 5 Min</strong></td>
+                    <td>~100KB</td>
+                    <td>288/day</td>
+                    <td>~28 MB</td>
+                    <td>~850 MB</td>
+                    <td>₦500-800</td>
                 </tr>
                 <tr>
-                    <td><strong>Generic "ONVIF Solar 4G"</strong></td>
-                    <td>2MP-5MP, 8W Solar, PTZ</td>
-                    <td>RTSP, ONVIF, Some have DDNS</td>
-                    <td>$50-100</td>
+                    <td><strong>FTP Every 2 Min</strong></td>
+                    <td>~100KB</td>
+                    <td>720/day</td>
+                    <td>~70 MB</td>
+                    <td>~2.1 GB</td>
+                    <td>₦1,200-1,500</td>
+                </tr>
+                <tr>
+                    <td><strong>FTP Every 1 Min</strong></td>
+                    <td>~100KB</td>
+                    <td>1440/day</td>
+                    <td>~140 MB</td>
+                    <td>~4.2 GB</td>
+                    <td>₦2,000-2,500</td>
+                </tr>
+                <tr>
+                    <td><strong>Continuous RTSP</strong></td>
+                    <td>N/A (stream)</td>
+                    <td>24/7</td>
+                    <td>~18 GB</td>
+                    <td>~540 GB</td>
+                    <td>₦30,000+ 😱</td>
                 </tr>
             </table>
 
-            <p><strong>ENSTER Protocols:</strong> RTSP, FTP, PPPOE, DHCP, DDNS, NTP, UPnP, SMTP, ONVIF</p>
-            <p><strong>Where to Buy:</strong></p>
+            <div class="alert alert-info">
+                <strong>Recommendation:</strong> Use <strong>5-minute FTP intervals</strong> for Tutela analysis (~₦600/month). Farmers can still watch live video anytime using the camera's own app (P2P) - that data cost is on them, not Tutela.
+            </div>
+
+            <h3>Why This Works</h3>
+            <ul>
+                <li><strong>5-minute delay is acceptable</strong> - Pig health issues develop over hours/days, not seconds</li>
+                <li><strong>Motion-triggered bonus</strong> - Configure camera to also upload on motion for unusual activity</li>
+                <li><strong>Live always available</strong> - Farmers watch via camera app (ENSTER/iCSee), bypassing Tutela</li>
+                <li><strong>Low Tutela costs</strong> - We only pay for 850MB/month instead of 540GB</li>
+            </ul>
+
+            <h3>ENSTER Solar 4G Camera (Recommended)</h3>
+            <table>
+                <tr>
+                    <th>Specification</th>
+                    <th>Details</th>
+                </tr>
+                <tr>
+                    <td><strong>Resolution</strong></td>
+                    <td>2MP-4MP (1080p sufficient for pig detection)</td>
+                </tr>
+                <tr>
+                    <td><strong>Solar Panel</strong></td>
+                    <td>8-15W (works in Nigerian sunlight)</td>
+                </tr>
+                <tr>
+                    <td><strong>Battery</strong></td>
+                    <td>20,000mAh lithium (days of backup)</td>
+                </tr>
+                <tr>
+                    <td><strong>4G Bands</strong></td>
+                    <td>LTE-FDD/TDD (works with MTN, Airtel, Glo)</td>
+                </tr>
+                <tr>
+                    <td><strong>Push Protocols</strong></td>
+                    <td><strong>FTP, SMTP</strong> (camera → server)</td>
+                </tr>
+                <tr>
+                    <td><strong>Pull Protocols</strong></td>
+                    <td>RTSP, ONVIF, DDNS (server → camera)</td>
+                </tr>
+                <tr>
+                    <td><strong>Night Vision</strong></td>
+                    <td>IR LEDs, 30m range</td>
+                </tr>
+                <tr>
+                    <td><strong>Weather</strong></td>
+                    <td>IP66 waterproof</td>
+                </tr>
+                <tr>
+                    <td><strong>Price</strong></td>
+                    <td>$60-120 (bulk: $40-80)</td>
+                </tr>
+            </table>
+
+            <h3>FTP Upload Configuration</h3>
+            <p>On the camera, configure FTP settings to push images to Tutela:</p>
+<pre><code>FTP Server: 46.51.143.72
+Port: 21
+Username: farm-lagos-001
+Password: [unique per farm]
+Upload Path: /images/
+Trigger: Timer (every 5 minutes) + Motion Detection
+File Format: JPEG
+Resolution: 1080p (2MP)</code></pre>
+
+            <div class="alert alert-info">
+                <strong>Pro Tip:</strong> Enable BOTH timer (5 min) AND motion triggers. Timer ensures regular analysis, motion catches unusual activity immediately.
+            </div>
+
+            <h3>Where to Buy</h3>
             <ul>
                 <li><a href="https://www.enster.com/onvif-4g-camera.html" target="_blank">ENSTER Official - Solar 4G ONVIF Camera</a></li>
-                <li><a href="https://enstercctv.en.alibaba.com/" target="_blank">ENSTER on Alibaba</a> (wholesale, contact for pricing)</li>
-                <li><a href="https://www.alibaba.com/showroom/onvif-wireless-solar-camera.html" target="_blank">Alibaba - ONVIF Solar Cameras</a></li>
-                <li><a href="https://www.aliexpress.com/w/wholesale-4g-rtsp-camera.html" target="_blank">AliExpress - 4G RTSP Cameras</a></li>
+                <li><a href="https://enstercctv.en.alibaba.com/" target="_blank">ENSTER on Alibaba</a> (wholesale, contact for bulk pricing)</li>
+                <li><a href="https://www.alibaba.com/showroom/4g-solar-cctv-camera.html" target="_blank">Alibaba - 4G Solar CCTV Cameras</a></li>
             </ul>
+
+            <div class="alert alert-warning">
+                <strong>Before buying:</strong> Confirm with seller that camera supports <strong>FTP upload on timer</strong> (not just motion-triggered). Ask for documentation or demo.
+            </div>
 
             <div class="alert alert-warning">
                 <strong>Important:</strong> Before buying, confirm with seller that camera supports <strong>RTSP + DDNS</strong>. Many cheap cameras advertise ONVIF but don't actually support it. Ask for demo video or documentation.
