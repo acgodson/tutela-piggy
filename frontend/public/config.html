@@ -651,16 +651,26 @@ cv2.destroyAllWindows()</code></pre>
                 <strong>How often does IP change?</strong> Typically every few days, or after camera power cycles. You'll get an alert when it happens - just update the IP and you're back online in seconds.
             </div>
 
-            <h4>V380 Pro Limitations (Important)</h4>
-            <p>The V380 Pro is a <strong>consumer-grade camera</strong> with these limitations:</p>
+            <h4>V380 Pro Capabilities (After Rooting)</h4>
+            <p>After applying the <code>ceshi.ini</code> config, V380 Pro supports:</p>
             <ul>
-                <li><strong>No DDNS support</strong> - Cannot auto-update hostname when IP changes</li>
-                <li><strong>No HTTP/MQTT push</strong> - Cannot push frames to a server</li>
-                <li><strong>No public API for P2P</strong> - V380 cloud is app-only, no programmatic access</li>
-                <li><strong>RTSP works</strong> - But requires knowing the IP address</li>
+                <li><strong>RTSP streaming</strong> - Standard protocol, works with any video software</li>
+                <li><strong>ONVIF</strong> - Standard IP camera protocol for discovery and control</li>
             </ul>
 
-            <p>For production/mass deployment, we recommend upgrading to cameras with better IoT support (see footer for recommendations).</p>
+            <h4>V380 Pro Limitations</h4>
+            <p>Even after rooting, V380 Pro still has these limitations:</p>
+            <ul>
+                <li><strong>No DDNS support</strong> - Cannot auto-update hostname when IP changes</li>
+                <li><strong>No FTP/HTTP/MQTT push</strong> - Cannot push frames to a server</li>
+                <li><strong>No public API for P2P</strong> - V380 cloud is app-only, no programmatic access</li>
+            </ul>
+
+            <div class="alert alert-info">
+                <strong>What is ONVIF?</strong> A standard protocol that lets any compatible software discover and control the camera. With ONVIF enabled, tools like VLC, iSpy, or Tutela can auto-discover the camera on the network and get its stream URL automatically.
+            </div>
+
+            <p>For production/mass deployment with dynamic IPs, we recommend cameras with <strong>FTP push or DDNS</strong> (see recommendations below).</p>
         </section>
 
         <section id="dynamic-ip">
@@ -694,9 +704,19 @@ cv2.destroyAllWindows()</code></pre>
                     <td>Workable for pilot phase</td>
                 </tr>
                 <tr>
+                    <td><strong>ONVIF Discovery</strong></td>
+                    <td>Yes (after enabling)</td>
+                    <td>Helps find camera on local network only</td>
+                </tr>
+                <tr>
                     <td><strong>DDNS</strong></td>
-                    <td>No - V380 Pro doesn't support DDNS</td>
-                    <td>Not available</td>
+                    <td>No</td>
+                    <td>V380 Pro doesn't have DDNS client</td>
+                </tr>
+                <tr>
+                    <td><strong>FTP Push</strong></td>
+                    <td>No</td>
+                    <td>V380 Pro can't push to server</td>
                 </tr>
                 <tr>
                     <td><strong>V380 P2P Cloud</strong></td>
