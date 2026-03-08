@@ -809,82 +809,87 @@ onvif = 1</code></pre>
 
         <section id="recommended-cameras">
             <h2>Recommended Cameras for Production</h2>
-            <p>The V380 Pro works for pilots, but for mass deployment we recommend <strong>solar-powered 4G cameras</strong> with proper IoT support:</p>
+            <p>The V380 Pro works for pilots, but for mass deployment we recommend <strong>solar-powered 4G cameras</strong> with proper IoT support (RTSP + DDNS):</p>
 
             <div class="alert alert-info" style="margin-bottom: 20px;">
-                <strong>Why upgrade?</strong> These cameras have built-in DDNS, ONVIF/RTSP support, and work reliably with dynamic IPs - no static IP or manual updates needed.
+                <strong>Why upgrade?</strong> Cameras with built-in DDNS automatically update their hostname when IP changes - no static IP needed, no manual updates. Tutela connects using a hostname like <code>farm001.hikvision.com</code> that always works.
             </div>
 
-            <h3>Hikvision Solar 4G (Best for Production)</h3>
+            <h3>Budget Option: Chinese OEM Solar 4G Cameras (Recommended)</h3>
+            <p>These are affordable cameras from Alibaba/AliExpress manufacturers with proper RTSP + ONVIF + DDNS support:</p>
+
+            <table>
+                <tr>
+                    <th>Brand/Type</th>
+                    <th>Specs</th>
+                    <th>Key Features</th>
+                    <th>Est. Price</th>
+                </tr>
+                <tr>
+                    <td><strong>ENSTER Solar 4G</strong></td>
+                    <td>2MP-4MP, 8-15W Solar, 20000mAh Battery</td>
+                    <td>RTSP, ONVIF, DDNS, FTP, Two-way Audio</td>
+                    <td>$60-120</td>
+                </tr>
+                <tr>
+                    <td><strong>Generic "ONVIF Solar 4G"</strong></td>
+                    <td>2MP-5MP, 8W Solar, PTZ</td>
+                    <td>RTSP, ONVIF, Some have DDNS</td>
+                    <td>$50-100</td>
+                </tr>
+            </table>
+
+            <p><strong>ENSTER Protocols:</strong> RTSP, FTP, PPPOE, DHCP, DDNS, NTP, UPnP, SMTP, ONVIF</p>
+            <p><strong>Where to Buy:</strong></p>
+            <ul>
+                <li><a href="https://www.enster.com/onvif-4g-camera.html" target="_blank">ENSTER Official - Solar 4G ONVIF Camera</a></li>
+                <li><a href="https://enstercctv.en.alibaba.com/" target="_blank">ENSTER on Alibaba</a> (wholesale, contact for pricing)</li>
+                <li><a href="https://www.alibaba.com/showroom/onvif-wireless-solar-camera.html" target="_blank">Alibaba - ONVIF Solar Cameras</a></li>
+                <li><a href="https://www.aliexpress.com/w/wholesale-4g-rtsp-camera.html" target="_blank">AliExpress - 4G RTSP Cameras</a></li>
+            </ul>
+
+            <div class="alert alert-warning">
+                <strong>Important:</strong> Before buying, confirm with seller that camera supports <strong>RTSP + DDNS</strong>. Many cheap cameras advertise ONVIF but don't actually support it. Ask for demo video or documentation.
+            </div>
+
+            <h3>Enterprise Option: Hikvision Solar 4G</h3>
+            <p>Premium quality, but expensive. Best for large-scale commercial deployments:</p>
+
             <table>
                 <tr>
                     <th>Model</th>
                     <th>Specs</th>
-                    <th>Key Features</th>
-                    <th>Price</th>
+                    <th>Why Expensive</th>
+                    <th>Est. Price</th>
                 </tr>
                 <tr>
                     <td><strong>DS-2XS6A87G1-L/C32S80</strong></td>
-                    <td>4K 8MP, 80W Solar Panel, 30Ah Battery</td>
-                    <td>DDNS, RTSP, ONVIF, HTTP API, ColorVu Night Vision</td>
-                    <td>~$400-600</td>
-                </tr>
-                <tr>
-                    <td><strong>DS-2XS6A87G1-LS/C36S80</strong></td>
-                    <td>4K 8MP, 100W Solar Panel, 36Ah Battery</td>
-                    <td>Same as above + longer battery life</td>
-                    <td>~$500-700</td>
+                    <td>4K 8MP, 80W Solar, 30Ah Battery</td>
+                    <td>Enterprise-grade, 30kg kit, ColorVu, full API</td>
+                    <td>$400-700+</td>
                 </tr>
             </table>
-            <p><strong>Protocols:</strong> TCP/IP, HTTP, HTTPS, DDNS, RTSP, ONVIF (Profile S/G/T), ISAPI, SDK</p>
             <p>
-                <a href="https://www.hikvision.com/en/products/IP-Products/Network-Cameras/solar-powered-security-camera-setup/ds-2xs6a87g1-l-c32s80-no-battery-/" target="_blank">Hikvision Official Product Page</a> ·
-                <a href="https://www.surveillance-video.com/camera-ds-2xs6a87g1-l-c32s80-2-8mm-nb.html" target="_blank">Surveillance-Video.com</a>
+                <a href="https://www.hikvision.com/en/products/IP-Products/Network-Cameras/solar-powered-security-camera-setup/ds-2xs6a87g1-l-c32s80-no-battery-/" target="_blank">Hikvision Official Page</a>
             </p>
 
-            <h3>Reolink Go Series (Budget Option)</h3>
-            <div class="alert alert-warning" style="margin-bottom: 16px;">
-                <strong>Note:</strong> Reolink battery/solar cameras do <strong>NOT support RTSP/ONVIF</strong> when used standalone. Only works through Reolink app/cloud or with Reolink Home Hub.
+            <div class="alert alert-info">
+                <strong>Do we need 4K?</strong> No! For pig counting, <strong>2MP (1080p) is sufficient</strong>. YOLOv8 processes at 640x640 anyway. Save money with a 2MP camera.
             </div>
-            <table>
-                <tr>
-                    <th>Model</th>
-                    <th>Specs</th>
-                    <th>Limitation</th>
-                    <th>Price</th>
-                </tr>
-                <tr>
-                    <td><strong>Go PT Plus</strong></td>
-                    <td>2K 5MP, 4G LTE, Pan/Tilt, Solar Panel</td>
-                    <td>No RTSP - Reolink cloud only</td>
-                    <td>~$180-250</td>
-                </tr>
-                <tr>
-                    <td><strong>Go PT Ultra</strong></td>
-                    <td>4K 8MP, 4G LTE, Pan/Tilt, Solar Panel</td>
-                    <td>No RTSP - Reolink cloud only</td>
-                    <td>~$250-350</td>
-                </tr>
-            </table>
-            <p>
-                <a href="https://reolink.com/product/reolink-go-pt-plus/" target="_blank">Reolink Go PT Plus</a> ·
-                <a href="https://reolink.com/product/reolink-go-pt-ultra/" target="_blank">Reolink Go PT Ultra</a> ·
-                <a href="https://support.reolink.com/hc/en-us/articles/360004441753-Can-Reolink-Battery-Powered-Cameras-Work-with-3rd-Party-Software/" target="_blank">Reolink 3rd Party Integration Guide</a>
-            </p>
 
             <h3>Comparison Summary</h3>
             <table>
                 <tr>
                     <th>Feature</th>
                     <th>V380 Pro (Current)</th>
+                    <th>ENSTER/OEM Solar 4G</th>
                     <th>Hikvision Solar 4G</th>
-                    <th>Reolink Go Series</th>
                 </tr>
                 <tr>
                     <td>Solar Powered</td>
-                    <td>No (requires external)</td>
-                    <td>Yes (built-in)</td>
-                    <td>Yes (optional panel)</td>
+                    <td>No</td>
+                    <td>Yes (8-15W panel)</td>
+                    <td>Yes (80W panel)</td>
                 </tr>
                 <tr>
                     <td>4G LTE</td>
@@ -893,46 +898,50 @@ onvif = 1</code></pre>
                     <td>Yes</td>
                 </tr>
                 <tr>
-                    <td>RTSP Support</td>
-                    <td>Yes (after config)</td>
+                    <td>RTSP</td>
+                    <td>Yes (after hack)</td>
                     <td>Yes (native)</td>
-                    <td>No (standalone)</td>
+                    <td>Yes (native)</td>
                 </tr>
                 <tr>
-                    <td>DDNS Support</td>
+                    <td>DDNS</td>
                     <td>No</td>
                     <td>Yes</td>
-                    <td>No</td>
+                    <td>Yes</td>
                 </tr>
                 <tr>
-                    <td>ONVIF Support</td>
-                    <td>Limited</td>
-                    <td>Yes (Profile S/G/T)</td>
-                    <td>No (standalone)</td>
-                </tr>
-                <tr>
-                    <td>HTTP API</td>
+                    <td>ONVIF</td>
                     <td>No</td>
-                    <td>Yes (ISAPI)</td>
-                    <td>Cloud only</td>
+                    <td>Yes</td>
+                    <td>Yes</td>
                 </tr>
                 <tr>
                     <td>Price</td>
                     <td>~$30</td>
+                    <td>~$60-120</td>
                     <td>~$400-700</td>
-                    <td>~$180-350</td>
                 </tr>
                 <tr>
                     <td>Best For</td>
-                    <td>Pilot/Testing</td>
-                    <td>Production</td>
-                    <td>Not recommended</td>
+                    <td>Pilot only</td>
+                    <td><strong>Production</strong></td>
+                    <td>Enterprise</td>
                 </tr>
             </table>
 
             <div class="alert alert-success">
-                <strong>Recommendation:</strong> For production deployment at scale, use <strong>Hikvision DS-2XS6A87G1 series</strong>. It has native DDNS + RTSP + ONVIF, works with dynamic IPs automatically, and is truly solar-powered for remote farms.
+                <strong>Recommendation for Tutela:</strong> Source <strong>ENSTER or similar OEM solar 4G cameras</strong> from Alibaba at $60-120 each. They have RTSP + DDNS which solves the dynamic IP problem. Contact ENSTER directly for bulk pricing - they do OEM/white-label.
             </div>
+
+            <h3>Custom Manufacturing Option</h3>
+            <p>For mass production (100+ units), consider contacting manufacturers directly for:</p>
+            <ul>
+                <li><strong>Custom firmware</strong> with Tutela pre-configured</li>
+                <li><strong>Tutela branding</strong> on camera/app</li>
+                <li><strong>Specific 4G bands</strong> for Nigeria (MTN, Airtel, Glo)</li>
+                <li><strong>Lower MOQ pricing</strong> - typically $40-80/unit at 500+ quantity</li>
+            </ul>
+            <p>Contact: <a href="mailto:admin@enster.com">admin@enster.com</a> or browse <a href="https://www.alibaba.com/showroom/4g-solar-cctv-camera.html" target="_blank">Alibaba 4G Solar CCTV suppliers</a></p>
         </section>
 
         <footer>
@@ -943,10 +952,11 @@ onvif = 1</code></pre>
                 <a href="/" style="color: #666;">Home</a>
             </p>
             <p style="margin-top: 16px; font-size: 0.8rem; color: #888;">
-                Camera Links:
-                <a href="https://www.hikvision.com/en/products/IP-Products/Network-Cameras/solar-powered-security-camera-setup/ds-2xs6a87g1-l-c32s80-no-battery-/" target="_blank" style="color: #888;">Hikvision Solar 4G</a> ·
-                <a href="https://reolink.com/product/reolink-go-pt-plus/" target="_blank" style="color: #888;">Reolink Go PT Plus</a> ·
-                <a href="https://reolink.com/product/reolink-go-pt-ultra/" target="_blank" style="color: #888;">Reolink Go PT Ultra</a>
+                Camera Sources:
+                <a href="https://www.enster.com/onvif-4g-camera.html" target="_blank" style="color: #888;">ENSTER Solar 4G</a> ·
+                <a href="https://enstercctv.en.alibaba.com/" target="_blank" style="color: #888;">ENSTER Alibaba</a> ·
+                <a href="https://www.alibaba.com/showroom/4g-solar-cctv-camera.html" target="_blank" style="color: #888;">Alibaba 4G Solar</a> ·
+                <a href="https://www.hikvision.com/en/products/IP-Products/Network-Cameras/solar-powered-security-camera-setup/" target="_blank" style="color: #888;">Hikvision Solar</a>
             </p>
         </footer>
     </div>
