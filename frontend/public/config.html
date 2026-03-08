@@ -308,14 +308,73 @@
 
         @media (max-width: 768px) {
             h1 {
-                font-size: 1.8rem;
+                font-size: 1.6rem;
+            }
+            h2 {
+                font-size: 1.3rem;
+            }
+            h3 {
+                font-size: 1.05rem;
             }
             .container {
-                padding: 20px 16px;
+                padding: 16px 12px;
             }
             pre {
                 padding: 12px;
+                font-size: 0.75rem;
+            }
+            .diagram {
+                font-size: 0.65rem;
+                padding: 12px 8px;
+            }
+            table {
+                font-size: 0.85rem;
+            }
+            th, td {
+                padding: 8px 6px;
+            }
+            .step-box {
+                padding: 16px;
+            }
+            .alert {
+                padding: 12px 14px;
+                font-size: 0.9rem;
+            }
+            .nav-links {
+                gap: 8px;
+            }
+            .nav-links a {
+                padding: 6px 12px;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.4rem;
+            }
+            .subtitle {
+                font-size: 0.95rem;
+            }
+            .badge {
+                font-size: 0.75rem;
+            }
+            .diagram {
+                font-size: 0.55rem;
+                padding: 8px 4px;
+            }
+            table {
                 font-size: 0.8rem;
+                display: block;
+                overflow-x: auto;
+            }
+            th, td {
+                padding: 6px 4px;
+                white-space: nowrap;
+            }
+            pre {
+                font-size: 0.7rem;
+                padding: 10px;
             }
         }
     </style>
@@ -1019,8 +1078,21 @@ onvif = 1</code></pre>
                 </tr>
             </table>
 
+            <h3>ENSTER Documentation & Setup Guides</h3>
+            <p>Official resources for configuring ENSTER cameras:</p>
+            <ul>
+                <li><a href="https://www.enster.com/uploadfile/upload/2020-10/12/SetupFTPsteps.pdf" target="_blank"><strong>ENSTER FTP Setup Guide (PDF)</strong></a> - Official step-by-step FTP configuration</li>
+                <li><a href="https://camhi.app/camhi-solution-how-to-set-up-enster-camera-to-use-a-ftp-server/" target="_blank"><strong>CamHi FTP Setup Tutorial</strong></a> - Configure FTP via CamHi mobile app</li>
+                <li><a href="https://www.ispyconnect.com/camera/enster" target="_blank"><strong>iSpy ENSTER Setup</strong></a> - ONVIF & RTSP configuration guide</li>
+            </ul>
+
             <h3>FTP Upload Configuration</h3>
-            <p>On the camera, configure FTP settings to push images to Tutela:</p>
+            <p>On the camera (via CamHi app or web interface), configure FTP settings:</p>
+
+            <h4>Step 1: Open FTP Settings</h4>
+            <p>In CamHi app: <strong>Settings → Alarm Settings → FTP Settings</strong></p>
+
+            <h4>Step 2: Enter Tutela FTP Server Details</h4>
 <pre><code>FTP Server: 46.51.143.72
 Port: 21
 Username: farm-lagos-001
@@ -1029,6 +1101,12 @@ Upload Path: /images/
 Trigger: Timer (every 5 minutes) + Motion Detection
 File Format: JPEG
 Resolution: 1080p (2MP)</code></pre>
+
+            <h4>Step 3: Enable FTP Upload</h4>
+            <p>In CamHi app: <strong>Settings → Alarm Settings</strong> → tick "Save pictures to FTP server"</p>
+
+            <h4>Step 4: Test Connection</h4>
+            <p>Click <strong>Test</strong> button - camera will upload a test image to verify connection.</p>
 
             <div class="alert alert-info">
                 <strong>Pro Tip:</strong> Enable BOTH timer (5 min) AND motion triggers. Timer ensures regular analysis, motion catches unusual activity immediately.
